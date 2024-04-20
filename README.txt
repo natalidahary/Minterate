@@ -19,8 +19,8 @@ Minterate is a client-server lending platform designed to facilitate lending tra
 - Borrowers can filter loans by amount and period to find suitable loan options.
 
 ### Loan Listings and Matching:
-- Loan listings are displayed on the client interface, allowing lenders to browse and select loans to fund.
-- Matching algorithms facilitate the pairing of borrowers with suitable lenders based on loan criteria and lender preferences.
+- Loan listings are displayed on the client interface.
+- Matching filteration facilitate the pairing of borrowers with suitable loans based on lenders criteria and preferences.
 
 ### Transparent Loan Terms and Interest Rates:
 - The platform provides transparent loan terms, including interest rates, repayment schedules, and borrower credit assessments.
