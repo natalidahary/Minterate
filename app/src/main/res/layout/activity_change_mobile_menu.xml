@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/general_background"
+    tools:context="com.example.myapplication.changesUpdates.ChangeMobileMenuActivity">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/change_mobile_menu_BTN_exitButton"
+        style="@style/ButtonSizeSmall"
+        android:layout_marginBottom="252dp"
+        android:gravity="center"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/change_mobile_menu_TVW_header"
+        style="@style/TextSizeLarge"
+        android:layout_width="275dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="Change My Mobile"
+        android:gravity="center"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/change_mobile_menu_EDT_oldMobile"
+        android:layout_width="289dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="168dp"
+        android:fontFamily="@font/js"
+        android:hint="old mobile"
+        android:inputType="phone"
+        android:background="@drawable/rectangle_input"
+        android:padding="12dp"
+        android:textColor="@color/TextColorWhite"
+        android:textColorHint="@color/TextColorBlack"
+        app:layout_constraintBottom_creator="@id/change_mobile_menu_BTN_exitButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <View
+        android:id="@+id/blackHorizontalLine2"
+        android:layout_width="300dp"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="28dp"
+        android:background="@color/TextColorDarkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/change_mobile_menu_newCountryCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/change_mobile_menu_EDT_newMobile"
+        android:layout_width="164dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="268dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_input"
+        android:fontFamily="@font/js"
+        android:hint="mobile"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:textColor="@color/TextColorWhite"
+        android:textColorHint="@color/TextColorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.557"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/change_mobile_menu_newCountryCode"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="268dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_input"
+        app:ccp_showFlag="false"
+        app:ccp_showNameCode="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.271"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/change_mobile_menu_TVW_verificationCodeHeader"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="368dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:hint="verification code will be sent"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.431"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/change_mobile_menu_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="68dp"
+        android:indeterminateTint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_mobile_menu_save"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/change_mobile_menu_save"
+        style="@style/ButtonSizeExtraLarge"
+        android:layout_width="220dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/TextColorYellow"
+        android:fontFamily="@font/js"
+        android:text="Save Mobile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_mobile_menu_EDT_newMobile" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

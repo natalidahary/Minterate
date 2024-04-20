@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/general_background"
+    tools:context="com.example.myapplication.userPreferences.DeleteUserMenuActivity">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_user_menu_BTN_exitButton"
+        style="@style/ButtonSizeSmall"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:text="X"
+        app:layout_constraintBottom_toTopOf="@+id/delete_user_menu_TVW_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.005"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delete_user_menu_TVW_header"
+        style="@style/TextSizeExtraLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:hint="Delete User"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/delete_user_menu_TVW_userNameText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delete_user_menu_TVW_userNameText"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/delete_user_menu_TVW_userIdText"
+        tools:ignore="MissingConstraints" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delete_user_menu_TVW_userIdText"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/blackHorizontalLine2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:id="@+id/blackHorizontalLine2"
+        android:layout_width="300dp"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="72dp"
+        android:background="@color/TextColorDarkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/delete_user_menu_TVW_confirmDeleteHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delete_user_menu_TVW_confirmDeleteHeader"
+        style="@style/TextSizeSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="392dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:hint="Are you sure you want to delete\n this user?"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/delete_user_menu_BTN_deleteUserButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_user_menu_BTN_deleteUserButton"
+        style="@style/ButtonSizeExtraLarge"
+        android:layout_width="220dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/TextColorYellow"
+        android:fontFamily="@font/js"
+        android:text="Delete User"
+        app:layout_constraintBottom_toTopOf="@+id/delete_user_menu_progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ProgressBar
+        android:id="@+id/delete_user_menu_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="56dp"
+        android:indeterminateTint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/delete_user_menu_BTN_deleteUserButton"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

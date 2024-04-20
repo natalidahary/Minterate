@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="open_setting_nav">Open Setting Navigation</string>
+    <string name="close_setting_nav">Close Setting Navigation</string>
+    <string name="open_personal_nav">Open Personal Navigation</string>
+    <string name="close_personal_nav">Close Personal Navigation</string>
+    <string name="terms_amp_conditions_n_privacy_policy"><![CDATA[Terms & Conditions \n Privacy Policy]]></string>
+
+    <string name="loanId_label">Loan ID</string>
+    <string name="amount_label">Amount</string>
+    <string name="repaymentPeriod_label">Repayment Period</string>
+    <string name="availabilityUntil_label">Availability Until</string>
+    <string name="interestRate_label">Interest Rate</string>
+    <string name="calculatedLoanAmount_label">Calculated Loan Amount</string>
+    <string name="calculatedMonthlyPayment_label">Calculated Monthly Payment</string>
+
+
+</resources>

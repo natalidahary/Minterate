@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/rectangleImage"
+        android:layout_width="500dp"
+        android:layout_height="72dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/rectangle_recent_activity" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/transaction_adapter_TVW_nameTextView"
+        android:layout_width="160dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="-70dp"
+        android:layout_marginRight="-180dp"
+        android:layout_toRightOf="@id/transaction_adapter_TVW_dateTextView"
+        android:fontFamily="@font/js"
+        android:text="Transaction Name"
+        android:textColor="@color/TextColorDarkBlue"
+        android:textSize="20sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/transaction_adapter_TVW_dateTextView"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_below="@id/transaction_adapter_TVW_nameTextView"
+        android:layout_centerHorizontal="false"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="-3dp"
+        android:fontFamily="@font/js"
+        android:text="Transaction Date"
+        android:textColor="@color/TextColorDarkBlue"
+        android:textSize="12sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/transaction_adapter_TVW_amountTextView"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="-120dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="-180dp"
+        android:layout_toRightOf="@id/transaction_adapter_TVW_countTextView"
+        android:fontFamily="@font/js"
+        android:text="Transaction Amount"
+        android:textColor="@color/greenAmount"
+        android:textSize="17sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/transaction_adapter_TVW_countTextView"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_below="@id/transaction_adapter_TVW_amountTextView"
+        android:layout_marginLeft="290dp"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/js"
+        android:text="Transaction Count"
+        android:textColor="@color/TextColorDarkBlue"
+        android:textSize="12sp" />
+
+
+</RelativeLayout>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="420sp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/menu_settings_background"
+    android:layout_gravity="bottom|right">
+
+
+    <TextView
+        android:id="@+id/nav_home"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_currency"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="146dp"
+        android:layout_marginRight="146dp"
+        android:layout_marginBottom="-2dp"
+        android:drawableStart="@drawable/ic_home"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Home" />
+
+    <TextView
+        android:id="@+id/nav_currency"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_Notification"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="123dp"
+        android:layout_marginRight="123dp"
+        android:layout_marginBottom="1dp"
+        android:drawableStart="@drawable/ic_currency"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16sp"
+        android:text="Currency" />
+
+    <TextView
+        android:id="@+id/nav_accessibility"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_about"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="107dp"
+        android:layout_marginRight="107dp"
+        android:layout_marginBottom="0dp"
+        android:drawableStart="@drawable/ic_accessibility"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Accessibility" />
+
+    <TextView
+        android:id="@+id/nav_about"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_terms_conditions"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="144dp"
+        android:layout_marginBottom="1dp"
+        android:drawableStart="@drawable/ic_info"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="About" />
+
+    <TextView
+        android:id="@+id/nav_terms_conditions"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_delete_account"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="43dp"
+        android:layout_marginRight="43dp"
+        android:layout_marginBottom="-2dp"
+        android:drawableStart="@drawable/ic_agreements"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="@string/terms_amp_conditions_n_privacy_policy" />
+
+    <TextView
+        android:id="@+id/nav_delete_account"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="55dp"
+        android:layout_marginRight="55dp"
+        android:layout_marginBottom="2dp"
+        android:drawableStart="@drawable/ic_delete"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Delete my account" />
+
+    <TextView
+        android:id="@+id/nav_Notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_accessibility"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="101dp"
+        android:layout_marginRight="101dp"
+        android:layout_marginBottom="1dp"
+        android:drawableStart="@drawable/ic_notifications"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Notifications"
+        style="@style/TextSizeMedium" />
+
+</RelativeLayout>

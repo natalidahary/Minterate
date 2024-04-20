@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/login_background"
+    tools:context="com.example.myapplication.loginActivity.SigninOtpActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signIn_otp_BTN_exitButton"
+        style="@style/ButtonSizeSmall"
+        android:layout_marginBottom="252dp"
+        android:gravity="center"
+        android:text="X"
+        app:layout_constraintBottom_toTopOf="@+id/signIn_otp_EDT_input1OTP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/signIn_otp_TVW_verificationHeader"
+        style="@style/TextSizeExtraLarge"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="OTP Verification"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/signIn_otp_TVW_mobileOTP"
+        android:layout_width="160dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="208dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signIn_otp_BTN_exitButton"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/signIn_otp_TVW_header"
+        style="@style/TextSizeMedium"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="Enter the OTP sent to"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/signIn_otp_EDT_input1OTP"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:background="@drawable/rectangle_input"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/signIn_otp_EDT_input2OTP"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:background="@drawable/rectangle_input"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/signIn_otp_EDT_input3OTP"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:background="@drawable/rectangle_input"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.429"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/signIn_otp_EDT_input4OTP"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:background="@drawable/rectangle_input"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/signIn_otp_EDT_input5OTP"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:background="@drawable/rectangle_input"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.701"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/signIn_otp_EDT_input6OTP"
+        android:layout_width="27dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="1"
+        android:background="@drawable/rectangle_input"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.832"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/blackHorizontalLine"
+        android:layout_width="300dp"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/TextColorDarkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/signIn_otp_TVW_resendOTP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/signIn_otp_TVW_resendOTP"
+        style="@style/TextSizeMedium"
+        android:layout_width="100dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Resend OTP"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.874"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signIn_otp_EDT_input6OTP"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/signIn_otp_TVW_receiveOTP"
+        style="@style/TextSizeMedium"
+        android:layout_width="190dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Didn't receive the OTP? "
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signIn_otp_EDT_input5OTP"
+        tools:ignore="MissingConstraints" />
+
+    <ProgressBar
+        android:id="@+id/signIn_otp_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="572dp"
+        android:indeterminateTint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signIn_otp_BTN_verify"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signIn_otp_BTN_verify"
+        style="@style/ButtonSizeExtraLarge"
+        android:layout_width="220dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/TextColorYellow"
+        android:fontFamily="@font/js"
+        android:text="Verify"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signIn_otp_TVW_receiveOTP" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

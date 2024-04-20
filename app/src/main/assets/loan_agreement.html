@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* Add the following styles for the exit button */
+        #exitButton {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            background-color: #ccc;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+
+        @font-face {
+            font-family: 'Times New Roman';
+        }
+
+        body {
+            font-family: 'Times New Roman';
+            margin-top: 40px;
+        }
+
+        h1 {
+            color: #000;
+            text-align: center;
+            font-family: 'Times New Roman';
+        }
+
+        .section {
+            margin-bottom: 20px;
+            font-family: 'Times New Roman';
+        }
+
+        .signature {
+            margin-top: 40px;
+            text-align: center;
+            font-family: 'Times New Roman';
+        }
+    </style>
+    <script src="https://unpkg.com/signature_pad"></script>
+</head>
+
+<body onload="adjustSignaturePadDisplay()">
+<button id="exitButton" onclick="closeActivity()">X</button>
+
+<h1>LOAN AGREEMENT</h1>
+
+<div class="section">
+    <h2>LENDER:</h2>
+    <p><span id="lenderName">[Full Name of Lender]</span><br>
+        <span id="lenderId">[ID of Lender]</span><br>
+        <span id="lenderAddress">[Address of Lender]</span><br>
+        <span id="lenderCity">[City, State]</span></p>
+</div>
+
+<div class="section">
+    <h2>BORROWER:</h2>
+    <p><span id="borrowerName">[Full Name of Borrower]</span><br>
+        <span id="borrowerId">[ID of Borrower]</span><br>
+        <span id="borrowerAddress">[Address of Borrower]</span><br>
+        <span id="borrowerCity">[City, State of Borrower]</span></p>
+</div>
+
+<div class="section">
+    <h2>1. LOAN DETAILS:</h2>
+    <p>1.1 Loan Amount: <span id="loanAmountWordsNumbers">[Enter Loan Amount in words and numbers]</span><br>
+        1.2 Interest Rate: <span id="interestRate">[Enter Interest Rate]</span>%<br>
+        1.3 Repayment Period: <span id="repaymentPeriod">[Enter Repayment Period]</span> months<br>
+        1.4 Commencement Date: <span id="commencementDate">[Not yet determined.]</span> </p>
+</div>
+
+<div class="section">
+    <h2>2. TERMS OF REPAYMENT:</h2>
+    <p>2.1 The Borrower agrees to repay the Loan Amount along with accrued interest in equal monthly installments
+        of <span id="monthlyPaymentAmount">[Enter Monthly Payment Amount]</span> commencing on <span
+                id="firstRepaymentDate">[Not yet determined]</span> and continuing on the same day of each
+        successive month thereafter until the Loan Amount is fully repaid.</p>
+</div>
+
+<div class="section">
+    <h2>3. INTEREST:</h2>
+    <p>3.1 The Interest Rate shall apply on the outstanding balance of the Loan Amount. Interest shall accrue
+        monthly.</p>
+</div>
+
+<div class="section">
+    <h2>4. PREPAYMENT:</h2>
+    <p>4.1 The Borrower may prepay the Loan Amount, in whole or in part, at any time without incurring any
+        prepayment penalty.</p>
+</div>
+
+<div class="section">
+    <h2>5. REPRESENTATIONS AND WARRANTIES:</h2>
+    <p>5.1 The Borrower represents and warrants that all information provided in connection with this Agreement
+        is true, accurate, and complete.</p>
+</div>
+
+<div class="section">
+    <h2>6. DEFAULT:</h2>
+    <p>6.1 The Borrower will be in default under this Agreement if any payment is not made within <span
+            id="gracePeriod">[Enter Grace Period]</span> days of the due date.</p>
+</div>
+
+<div class="section">
+    <h2>7. GOVERNING LAW:</h2>
+    <p>This Agreement is governed by internationally recognized legal principles. Disputes shall be resolved
+        through agreed international arbitration rules; in the absence of agreement, resolution shall follow the
+        rules of the International Court of Justice.</p>
+</div>
+
+<div class="section">
+    <h2>8. BREACH OF CONTRACT:</h2>
+    <p>8.1 In the event of a breach of any provision of this Agreement by either party, the non-breaching party
+        may provide written notice to the breaching party specifying the nature of the breach. If the breaching
+        party fails to cure the breach within <span id="curePeriod">[Enter Cure Period]</span> days of receiving
+        such notice, the non-breaching party shall have the right to pursue all available legal remedies,
+        including but not limited to demanding immediate repayment of the outstanding Loan Amount and accrued
+        interest.</p>
+
+    <p>8.2 In the event of default by the Borrower, the Lender may declare the entire outstanding balance of the
+        Loan Amount, together with accrued interest, to be immediately due and payable, and the Lender may
+        exercise any other rights and remedies available under applicable law.</p>
+
+    <p>8.3 The parties agree that, in addition to any legal remedies, the non-breaching party may be entitled to
+        recover reasonable attorneys' fees and costs incurred in enforcing the terms of this Agreement.</p>
+</div>
+
+<div class="signature">
+    <h2>9. SIGNATURES:</h2>
+    <!-- Lender's signature section (unchanged) -->
+    <p><span id="lenderFullName">[Full Name of Lender]</span><br>
+    <div class="signature">
+        <button id="openLenderSignatureButton" onclick="openSignaturePad('lenderSignatureCanvas', 'lenderSignature')">Open Lender's
+            Signature Pad</button>
+        <canvas id="lenderSignatureCanvas" width="400" height="200" style="border: 1px solid #000;"></canvas>
+        <button id="saveLenderSignatureButton" onclick="saveSignature('lenderSignatureCanvas', 'lenderSignature', 'lenderDate')">Save
+            Lender's Signature</button>
+        <div id="lenderSignature">[Lender Signature Image]</div><br>
+        <span id="lenderDate">[Date of Lender]</span></p>
+    </div>
+
+    <!-- Borrower's signature section -->
+    <p><span id="borrowerFullName">[Full Name of Borrower]</span><br>
+    <div class="signature">
+        <!-- Button to open borrower's signature pad (conditionally) -->
+        <button id="openBorrowerSignatureButton" onclick="openBorrowerSignaturePad()">Open Borrower's Signature Pad</button>
+        <!-- Canvas for borrower's signature -->
+        <canvas id="borrowerSignatureCanvas" width="400" height="200" style="border: 1px solid #000;"></canvas>
+        <!-- Button to save borrower's signature (conditionally) -->
+        <button id="saveBorrowerSignatureButton" onclick="saveBorrowerSignature()">Save Borrower's Signature</button>
+        <!-- Display the saved borrower's signature -->
+        <div id="borrowerSignature">[Borrower Signature Image]</div><br>
+        <!-- Display the date of borrower's signature -->
+        <span id="borrowerDate">[Date of Borrower]</span></p>
+    </div>
+
+    <button id="saveContractButton" onclick="saveContract()">Save Contract</button>
+</div>
+
+<script>
+        // To exit to MainActivity
+        function exitToMainActivity(signature) {
+            AndroidInterface.exitToMainActivity(signature);
+        }
+
+
+        // To simply close the current activity
+        function closeActivity() {
+            AndroidInterface.closeActivity();
+        }
+
+        // To open the borrower's signature pad (conditionally)
+        function openBorrowerSignaturePad() {
+            if (AndroidInterface.isLender()) {
+                // Check if the current user is the lender
+                alert("Lender cannot sign as a borrower.");
+            } else {
+                openSignaturePad('borrowerSignatureCanvas', 'borrowerSignature');
+            }
+        }
+
+        // To save the borrower's signature (conditionally)
+        function saveBorrowerSignature() {
+            if (AndroidInterface.isLender()) {
+                // Check if the current user is the lender
+                alert("Lender cannot sign as a borrower.");
+            } else {
+                saveSignature('borrowerSignatureCanvas', 'borrowerSignature', 'borrowerDate');
+            }
+        }
+
+        function openSignaturePad(canvasId, signatureId) {
+            var canvas = document.getElementById(canvasId);
+            var signaturePad = new SignaturePad(canvas);
+        }
+
+        // Declare a global variable to store lender's signature data
+        var lenderSignatureData = null;
+
+        // To save the signature data globally
+        function saveSignature(canvasId, signatureId, dateId) {
+            var canvas = document.getElementById(canvasId);
+            var context = canvas.getContext("2d");
+            var imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+
+            // Check if the drawn signature is entirely transparent or white
+            var isBlank = Array.from(imageData).every(value => value === 0 || value === 255);
+
+            if (isBlank) {
+                alert("Please provide a valid signature before saving.");
+                return null; // Return null to indicate failure
+            }
+
+            var dataURL = canvas.toDataURL();
+            var signatureDiv = document.getElementById(signatureId);
+            signatureDiv.innerHTML = '<img src="' + dataURL + '" alt="Signature">';
+
+            var dateDiv = document.getElementById(dateId);
+            dateDiv.innerText = new Date().toLocaleDateString();
+
+            // Save the signature data globally
+            lenderSignatureData = dataURL;
+
+            return dataURL; // Return the data URL
+        }
+
+
+        function adjustSignaturePadDisplay() {
+            var isLender = AndroidInterface.isLender();
+            var isFinish = AndroidInterface.isFinish();
+            var lenderButton = document.getElementById('openLenderSignatureButton');
+            var lenderCanvas = document.getElementById('lenderSignatureCanvas');
+            var lenderSaveButton = document.getElementById('saveLenderSignatureButton');
+
+            var borrowerButton = document.getElementById('openBorrowerSignatureButton');
+            var borrowerCanvas = document.getElementById('borrowerSignatureCanvas');
+            var borrowerSaveButton = document.getElementById('saveBorrowerSignatureButton');
+
+            var saveContractButton = document.getElementById('saveContractButton');
+
+            if (isFinish){
+              // Hide borrower's signature elements
+                borrowerButton.style.display = 'none';
+                borrowerCanvas.style.display = 'none';
+                borrowerSaveButton.style.display = 'none';
+
+               // Hide lender's signature elements
+                lenderButton.style.display = 'none';
+                lenderCanvas.style.display = 'none';
+                lenderSaveButton.style.display = 'none';
+
+               // Hide save contract button
+                saveContractButton.style.display = 'none';
+
+            }else{
+                if (isLender) {
+                // Hide borrower's signature elements
+                borrowerButton.style.display = 'none';
+                borrowerCanvas.style.display = 'none';
+                borrowerSaveButton.style.display = 'none';
+
+                // Show lender's signature elements
+                lenderButton.style.display = 'block';
+                lenderCanvas.style.display = 'block';
+                lenderSaveButton.style.display = 'block';
+                } else {
+                    // Hide lender's signature elements
+                    lenderButton.style.display = 'none';
+                    lenderCanvas.style.display = 'none';
+                    lenderSaveButton.style.display = 'none';
+
+                    // Show borrower's signature elements
+                    borrowerButton.style.display = 'block';
+                    borrowerCanvas.style.display = 'block';
+                    borrowerSaveButton.style.display = 'block';
+                }
+            }
+        }
+
+        function saveContract() {
+            var isLender = AndroidInterface.isLender();
+            if(isLender){
+                var lenderSignature = saveSignature('lenderSignatureCanvas', 'lenderSignature', 'lenderDate');
+                if (!lenderSignature) {
+                    alert("Lender's signature is required.");
+                } else {
+                    // Alert a success message (you can remove this in the final version)
+                    alert("Lender's signature was saved successfully");
+
+                    // Perform any additional actions, such as sending the signature data to the backend
+                    exitToMainActivity(lenderSignature);
+                }
+            }else{
+                var borrowerSignature = saveSignature('borrowerSignatureCanvas', 'borrowerSignature', 'borrowerDate');
+                if (!borrowerSignature) {
+                    alert("Borrower's signature is required.");
+                } else {
+                    // Alert a success message (you can remove this in the final version)
+                    alert("Borrower's signature was saved successfully");
+
+                    // Perform any additional actions, such as sending the signature data to the backend
+                    exitToMainActivity(borrowerSignature);
+                }
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>

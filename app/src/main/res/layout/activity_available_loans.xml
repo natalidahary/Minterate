@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/general_background"
+    tools:context="com.example.myapplication.userPreferences.AvailableLoansActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/available_loans_BTN_exitButton"
+        style="@style/ButtonSizeSmall"
+        android:layout_width="56dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/available_loans_TVW_header" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/available_loans_TVW_header"
+        style="@style/TextSizeExtraLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:hint="Available Loans"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/available_loans_TVW_sortRedirect"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/js"
+        android:gravity="left"
+        android:text="  Sort ⤓"
+        android:background="@drawable/rectangle_input"
+        android:textColor="@color/TextColorWhite" />
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/general_background">
+
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5sp"
+            tools:context="com.example.myapplication.userPreferences.AvailableLoansActivity">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/rectangle_input2"
+                android:padding="5sp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/available_loans_TVW_loanId"
+                    style="@style/TextSizeMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:fontFamily="@font/js"
+                    android:padding="10sp"
+                    android:text="@string/loanId_label"
+                    android:textColor="@color/TextColorBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/available_loans_TVW_amount"
+                    style="@style/TextSizeMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:fontFamily="@font/js"
+                    android:padding="30sp"
+                    android:text="@string/amount_label"
+                    android:textColor="@color/TextColorBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/available_loans_TVW_repaymentPeriod"
+                    style="@style/TextSizeMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:fontFamily="@font/js"
+                    android:padding="10sp"
+                    android:text="@string/repaymentPeriod_label"
+                    android:textColor="@color/TextColorBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/available_loans_TVW_availabilityUntil"
+                    style="@style/TextSizeMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:fontFamily="@font/js"
+                    android:padding="30sp"
+                    android:text="@string/availabilityUntil_label"
+                    android:textColor="@color/TextColorBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/available_loans_TVW_interestRate"
+                    style="@style/TextSizeMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:fontFamily="@font/js"
+                    android:padding="10sp"
+                    android:text="@string/interestRate_label"
+                    android:textColor="@color/TextColorBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/available_loans_TVW_calculatedLoanAmount"
+                    style="@style/TextSizeMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="5"
+                    android:fontFamily="@font/js"
+                    android:padding="10sp"
+                    android:text="@string/calculatedLoanAmount_label"
+                    android:textColor="@color/TextColorBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/available_loans_TVW_calculatedMonthlyPayment"
+                    style="@style/TextSizeMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="6"
+                    android:fontFamily="@font/js"
+                    android:padding="10sp"
+                    android:text="@string/calculatedMonthlyPayment_label"
+                    android:textColor="@color/TextColorBlack" />
+
+            </TableRow>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/availableLoansRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="-520dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="@id/tableLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0" />
+
+        </TableLayout>
+
+    </HorizontalScrollView>
+
+    <ProgressBar
+        android:id="@+id/available_loans_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="-250dp"
+        android:indeterminateTint="@color/TextColorWhite"
+        app:layout_constraintHorizontal_bias="0.498" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/available_loans_TVW_textAvailableLoans"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="center"
+        android:fontFamily="@font/js"
+        android:layout_marginTop="-150dp"
+        android:padding="10sp"
+        android:text="Looking for available loans.."
+        android:textColor="@color/TextColorWhite" />
+
+
+
+</LinearLayout>

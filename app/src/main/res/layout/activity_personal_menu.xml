@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="420sp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/menu_personal_background"
+    android:layout_gravity="bottom"
+    tools:context="com.example.myapplication.MainActivity">
+
+
+    <TextView
+        android:id="@+id/nav_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_change_address"
+        android:drawableStart="@drawable/ic_home"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:drawablePadding="8dp"
+        android:text="Home"
+        style="@style/TextSizeMedium" />
+
+    <TextView
+        android:id="@+id/nav_change_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_security"
+        android:drawableStart="@drawable/ic_address"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:drawablePadding="8dp"
+        android:padding="16sp"
+        android:text="Change Address"
+        style="@style/TextSizeMedium"/>
+
+    <TextView
+        android:id="@+id/nav_security"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_loans"
+        android:drawableStart="@drawable/ic_security"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:text="Security"
+        style="@style/TextSizeMedium"
+        android:padding="16dp"
+        android:drawablePadding="8dp" />
+
+    <TextView
+        android:id="@+id/nav_loans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_change_credit"
+        android:drawableStart="@drawable/ic_loans"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:text="Loans"
+        style="@style/TextSizeMedium"
+        android:padding="16dp"
+        android:drawablePadding="8dp"/>
+
+    <TextView
+        android:id="@+id/nav_change_credit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_help"
+        android:drawableStart="@drawable/ic_card"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:text="Change Credit"
+        style="@style/TextSizeMedium"
+        android:padding="16dp"
+        android:drawablePadding="8dp" />
+
+    <TextView
+        android:id="@+id/nav_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_sign_out"
+        android:drawableStart="@drawable/ic_help"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:text="Help"
+        style="@style/TextSizeMedium"
+        android:padding="16dp"
+        android:drawablePadding="8dp" />
+
+    <TextView
+        android:id="@+id/nav_sign_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@font/js"
+        android:gravity="center_vertical"
+        android:text="Sign Out"
+        style="@style/TextSizeMedium"
+        android:padding="16dp"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/ic_signout"/>
+
+</RelativeLayout>

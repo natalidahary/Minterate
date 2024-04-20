@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text Color Styles -->
+    <color name="TextColorWhite">#FFFFFF</color>
+
+    <color name="TextColorBlack">#000000</color>
+
+    <color name="TextColorYellow">#eee30c</color>
+
+    <color name="TextColorDarkBlue">#2b3452</color>
+
+    <color name="TextColorLightBlue">#D4E6F1</color>
+
+    <color name="TextColorInput">#545d75</color>
+
+    <color name="TextColorBlue"> #92a2cc</color>
+
+    <color name="redAmount">#9e0303</color>
+
+    <color name="greenAmount">#148302</color>
+</resources>

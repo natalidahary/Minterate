@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/general_background"
+    tools:context=".userPreferences.ChooseLoanActivity">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/choose_loan_BTN_exitButton"
+        style="@style/ButtonSizeSmall"
+        android:layout_width="55dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="X"
+        app:layout_constraintBottom_toTopOf="@+id/choose_loan_TVW_loanDetailsHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_loanDetailsHeader"
+        style="@style/TextSizeExtraExtraLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="Loan Details"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_amountLoan"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:inputType="text"
+        android:padding="12dp"
+        android:text="50,000$"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_interestHeader"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toTopOf="@id/choose_loan_TVW_interestLoan"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="Interest Rate:"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/blackHorizontalLine1"
+        android:layout_width="200dp"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/TextColorDarkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/choose_loan_TVW_periodHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:id="@+id/blackHorizontalLine2"
+        android:layout_width="200dp"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/TextColorDarkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/choose_loan_TVW_interestHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_periodLoan"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:padding="12dp"
+        android:text="36 months"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_monthlyHeader"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toTopOf="@id/choose_loan_TVW_monthlyLoan"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="472dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="Monthly Payment:"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_interestLoan"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="388dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:padding="12dp"
+        android:text="6.2%"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.548"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/blackHorizontalLine3"
+        android:layout_width="250dp"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/TextColorDarkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/choose_loan_TVW_monthlyHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_periodHeader"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toTopOf="@id/choose_loan_TVW_periodLoan"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="252dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="Period:"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_monthlyLoan"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="496dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:padding="12dp"
+        android:text="1,512$"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.639"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choose_loan_TVW_amountHeader"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toTopOf="@id/choose_loan_TVW_amountLoan"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:hint="Amount:"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColorHint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/choose_loan_BTN_getLoan"
+        style="@style/ButtonSizeExtraLarge"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/TextColorYellow"
+        android:fontFamily="@font/js"
+        android:text="Get Loan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.558"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/choose_loan_TVW_monthlyLoan" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

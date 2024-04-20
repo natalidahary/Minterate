@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication"
+        tools:targetApi="31">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <activity
+            android:name=".userPreferences.ShowLoanDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.DeleteUserMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.HelpMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.LoansMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userActions.BorrowAgreementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.ChooseLoanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userActions.LoanAgreementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.AvailableLoansActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.UpdatePasswordFinalLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.UpdatePasswordOtpLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.UpdatePasswordLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.ChangeMobileMenuOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.CurrencyMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.ChangeMobileMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.NotificationsMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userPreferences.AccessibilityMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.ChangeAddressMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".changesUpdates.ChangeCreditMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userActions.BorrowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userActions.LendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userActions.TransactionAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".signupActivity.SignupFourthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".signupActivity.SignupThirdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".signupActivity.SignupSecondOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".loginActivity.SigninOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".signupActivity.SignupFirstActivity"
+            android:exported="false" />
+        <activity
+            android:name=".loginActivity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".IntroductoryActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/terms_privacy_bg">
+
+    <Button
+        android:id="@+id/update_password_login_BTN_exitButton"
+        style="@style/ButtonSizeSmall"
+        android:layout_width="55dp"
+        android:layout_height="43dp"
+        android:gravity="center"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="634dp"
+        android:layout_below="@id/update_password_login_BTN_exitButton"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/terms_conditions_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/js"
+            style="@style/TextSizeSmall"
+            android:text="                              Terms &amp; Conditions\n\n
+1. Introduction\nWelcome to Minterate! These Terms and Conditions (Terms) govern\n your use of our mobile application. By accessing or using Minterate, you\n agree to comply with and be bound by these Terms. If you do not agree to\n these Terms, please do not use our application.\n\n
+2. Use of the Application\n2.1 You must be at least 18 years old to use Minterate.\n2.2 By using Minterate, you agree to provide accurate and up-to-date information during the registration process.\n2.3 Minterate facilitates loan transactions. Users can borrow money from others using the Minterate platform.\n\n
+3. Loan Transactions\n3.1 Users can view available loans and choose to borrow money within the Minterate platform.\n3.2 Minterate provides reminders and alerts to help users manage their loans and repayments.\n\n
+4. User Obligations\n4.1 Users are responsible for maintaining the security of their account information.\n4.2 Users must comply with all applicable laws and regulations.\n4.3 Minterate is not responsible for disputes between users, but we encourage open communication to resolve issues.\n\n
+5. Privacy\n5.1 We respect your privacy. Our Privacy Policy outlines how we collect, use, and protect your personal information.\n5.2 By using Minterate, you consent to the terms of our Privacy Policy.\n\n
+6. Termination\n6.1 Minterate reserves the right to terminate or suspend your account at any time for violations of these Terms.\n6.2 Upon termination, your rights to use Minterate will cease.\n\n
+7. Changes to Terms\n7.1 Minterate may update these Terms at any time. Users will be notified of significant changes.\n7.2 Continued use of Minterate after changes constitutes acceptance of the modified Terms.\n\n
+8. Contact Information\nIf you have any questions or concerns about these Terms, please contact us.\n\n
+                              Privacy Policy\n
+1. Overview\nMinterate is committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and safeguard your personal and payment information.\n\n
+2. Information We Collect\n2.1 Personal Information: We collect information provided during the registration process, such as your name, contact details, and payment information.\n2.2 Payment Information: Minterate securely processes and stores payment information, such as credit card details. This information is not shared with anyone and is highly secured.\n2.3 Transaction Data: Minterate securely processes information related to loans, including transaction amounts and dates.\n\n
+3. How We Use Your Information\n3.1 Facilitating Transactions: We use your information to facilitate loan transactions, including processing payments.\n3.2 Communications: We may contact you with alerts, reminders, and updates related to your loans.\n\n
+4. Information Sharing\n4.1 User-to-User: Minterate shares information between users involved in a loan transaction.\n4.2 Third Parties: We do not sell your personal or payment information to third parties. However, we may share information with service providers for app functionality.\n\n
+5. Security Measures\n5.1 Data Security: Minterate employs robust security measures to protect your personal and financial information.\n5.2 Access Control: Access to your information is restricted to authorized personnel only.\n\n
+6. Your Choices\n6.1 Profile Settings: You can update your profile information and communication preferences.\n6.2 Account Deactivation: You can deactivate your account at any time.\n\n
+7. Changes to the Privacy Policy\n7.1 Notification: Users will be notified of any significant changes to this Privacy Policy.\n7.2 Consent: Continued use of Minterate after changes constitutes acceptance of the modified Privacy Policy.\n\n
+8. Contact Information\nIf you have questions or concerns about our Privacy Policy, please contact us.\n\n\n"
+            android:textColor="@color/TextColorWhite"
+            android:textSize="15sp" />
+    </ScrollView>
+</RelativeLayout>

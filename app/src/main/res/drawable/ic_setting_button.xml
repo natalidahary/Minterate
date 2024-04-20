@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ic_setting_button"
+        android:drawable="@drawable/settings_button"
+        android:gravity="center"
+        android:width="75dp"
+        android:height="75dp"/>
+
+</layer-list>

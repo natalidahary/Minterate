@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/general_background"
+    tools:context="com.example.myapplication.userPreferences.NotificationsMenuActivity">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/notifications_menu_BTN_exitButton"
+        style="@style/ButtonSizeSmall"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="304dp"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notifications_menu_TVW_header"
+        style="@style/TextSizeExtraLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Notifications"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_BTN_exitButton" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notifications_menu_TVW_soundHeader"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/js"
+        android:text="Sounds"
+        android:gravity="center"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notifications_menu_TVW_header" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notifications_menu_TVW_soundText"
+        style="@style/TextSizeSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Allow sound notifications"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintLeft_toLeftOf="@id/notifications_menu_soundCheckBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_TVW_soundHeader" />
+
+    <CheckBox
+        android:id="@+id/notifications_menu_soundCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:buttonTint="@color/TextColorWhite"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_TVW_soundHeader" />
+
+    <View
+        android:id="@+id/blackHorizontalLine2"
+        android:layout_width="300dp"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/TextColorDarkBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notifications_menu_soundCheckBox" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notifications_menu_TVW_pushUpsHeader"
+        style="@style/TextSizeLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Push ups"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.147"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blackHorizontalLine2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notifications_menu_TVW_pushOneText"
+        style="@style/TextSizeSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="New transactions"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.392"
+        app:layout_constraintLeft_toLeftOf="@id/notifications_menu_pushOneCheckBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_TVW_pushUpsHeader" />
+
+    <CheckBox
+        android:id="@+id/notifications_menu_pushOneCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:buttonTint="@color/TextColorWhite"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_TVW_pushUpsHeader" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notifications_menu_TVW_pushTwoText"
+        style="@style/TextSizeSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Weekly balance update"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintLeft_toLeftOf="@id/notifications_menu_pushTwoCheckBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_pushOneCheckBox" />
+
+    <CheckBox
+        android:id="@+id/notifications_menu_pushTwoCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:buttonTint="@color/TextColorWhite"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_TVW_pushUpsHeader" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/notifications_menu_BTN_saveButton"
+        style="@style/ButtonSizeExtraLarge"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="96dp"
+        android:backgroundTint="@color/TextColorYellow"
+        android:fontFamily="@font/js"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_pushTwoCheckBox" />
+
+    <ProgressBar
+        android:id="@+id/notifications_menu_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:indeterminateTint="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notifications_menu_BTN_saveButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
