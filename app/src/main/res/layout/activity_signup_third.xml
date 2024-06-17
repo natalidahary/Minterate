@@ -6,9 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/login_background"
+    android:background="@drawable/general_background"
     tools:context="com.example.myapplication.signupActivity.SignupThirdActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signup_third_BTN_exitButton"
@@ -189,7 +203,7 @@
         android:layout_width="250dp"
         android:layout_height="70dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="130dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
         android:hint="Personal Data"

@@ -8,6 +8,7 @@ import com.example.myapplication.requestResponse.CreditCheckResponse
 import com.example.myapplication.requestResponse.CreditUpdateRequest
 import com.example.myapplication.requestResponse.CurrencyUpdateRequest
 import com.example.myapplication.requestResponse.EmailCheckResponse
+import com.example.myapplication.requestResponse.GetILSToUserCurrencyResponse
 import com.example.myapplication.requestResponse.GetMobileByEmailResponse
 import com.example.myapplication.requestResponse.IdCheckResponse
 import com.example.myapplication.requestResponse.LoanDataResponse
@@ -27,9 +28,9 @@ import com.example.myapplication.requestResponse.Transaction
 import com.example.myapplication.requestResponse.UnlockLoanRequest
 import com.example.myapplication.requestResponse.UnlockLoanResponse
 import com.example.myapplication.requestResponse.UpdateAndAddLoanRequest
+import com.example.myapplication.requestResponse.UpdateBlackAndWhiteModeRequest
 import com.example.myapplication.requestResponse.UpdatePasswordLoginRequest
 import com.example.myapplication.requestResponse.UserDataResponse
-import com.example.myapplication.requestResponse.GetILSToUserCurrencyResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -44,7 +45,7 @@ import retrofit2.http.Query
 interface RetrofitInterface {
 
     @POST("/login")
-    fun executeLogin(@Body map: HashMap<String, String>): Call<LoginResponse>
+    fun executeLogin(@Body credentials: HashMap<String, String>): Call<LoginResponse>
 
     @POST("/signup")
     fun executeSignup(@Body map: HashMap<String, Any>): Call<Void>
@@ -109,6 +110,12 @@ interface RetrofitInterface {
     @PUT("/updateUserTextScalar")
     fun updateUserTextScalar(@Query("token") userToken: String, @Body updateRequest: TextScalarUpdateRequest): Call<Void>
 
+    @PUT("/updateBlackAndWhiteMode") // Adjust the endpoint URL as needed
+    fun updateBlackAndWhiteMode(
+        @Query("token") userToken: String, // Pass the user token as a query parameter
+        @Body updateRequest: UpdateBlackAndWhiteModeRequest // Pass the request body
+    ): Call<Void>
+
     @PUT("/updateSoundSettings")
     fun updateSoundSettings(@Query("token") userToken: String, @Body updateRequest: SoundSettingsUpdateRequest): Call<Void>
 
@@ -138,6 +145,5 @@ interface RetrofitInterface {
 
     @GET("/getUserNameById")
     fun getUserNameById(@Query("userId") userId: String): Call<UserDataResponse>
-
 
 }

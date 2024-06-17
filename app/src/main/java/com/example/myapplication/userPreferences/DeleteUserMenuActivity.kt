@@ -2,14 +2,20 @@ package com.example.myapplication.userPreferences
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.loginActivity.LoginActivity
 import com.example.myapplication.MainActivity
@@ -44,6 +50,7 @@ class DeleteUserMenuActivity : AppCompatActivity() {
     private lateinit var deleteUserButton: Button
     private lateinit var exitButton: Button
     private lateinit var deleteProgressBar: ProgressBar
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var userToken: String
     private lateinit var userData: UserDataResponse
 
@@ -72,6 +79,7 @@ class DeleteUserMenuActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
         binding.deleteUserMenuBTNDeleteUserButton.setOnClickListener {
             soundManager.playClickSound()
@@ -95,6 +103,7 @@ class DeleteUserMenuActivity : AppCompatActivity() {
         deleteUserButton = findViewById(R.id.delete_user_menu_BTN_deleteUserButton)
         exitButton = findViewById(R.id.delete_user_menu_BTN_exitButton)
         deleteProgressBar = findViewById(R.id.delete_user_menu_progressBar)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -161,6 +170,46 @@ class DeleteUserMenuActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            deleteUserHeader.setTextColor(Color.BLACK)
+            userNameText.setTextColor(Color.BLACK)
+            userIdText.setTextColor(Color.BLACK)
+            confirmDeleteHeader.setTextColor(Color.BLACK)
+            deleteUserButton.setTextColor(Color.WHITE)
+            deleteUserButton.setBackgroundColor(Color.BLACK)
+            exitButton.setTextColor(Color.WHITE)
+            exitButton.setBackgroundColor(Color.BLACK)
+            deleteProgressBar.indeterminateTintList = ColorStateList.valueOf(Color.BLACK)
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            deleteUserHeader.setTextColor(Color.WHITE)
+            userNameText.setTextColor(Color.WHITE)
+            userIdText.setTextColor(Color.WHITE)
+            confirmDeleteHeader.setTextColor(Color.WHITE)
+            deleteUserButton.setTextColor(Color.BLACK)
+            deleteUserButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            exitButton.setTextColor(Color.BLACK)
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            deleteProgressBar.indeterminateTintList = ColorStateList.valueOf(Color.WHITE)
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         soundManager.release() // Release resources used by soundManager

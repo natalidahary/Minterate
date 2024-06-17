@@ -2,13 +2,23 @@ package com.example.myapplication.userPreferences
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.widget.CompoundButtonCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -48,6 +58,7 @@ class NotificationsMenuActivity : AppCompatActivity() {
     private lateinit var PushupsHeader: AppCompatTextView
     private lateinit var pushOneText: AppCompatTextView
     private lateinit var pushTwoText: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var userData: UserDataResponse
     private lateinit var userToken: String
     private lateinit var progressBarNotification: ProgressBar
@@ -81,7 +92,7 @@ class NotificationsMenuActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
-
+        applyBlackAndWhiteMode()
 
         saveButton.setOnClickListener {
             progressBarNotification.visibility = View.VISIBLE
@@ -113,6 +124,7 @@ class NotificationsMenuActivity : AppCompatActivity() {
         soundCheckBox = findViewById(R.id.notifications_menu_soundCheckBox)
         pushOneCheckbox = findViewById(R.id.notifications_menu_pushOneCheckBox)
         pushTwoCheckbox = findViewById(R.id.notifications_menu_pushTwoCheckBox)
+        minterateLogo = findViewById(R.id.logo)
     }
 
     override fun onDestroy() {
@@ -173,5 +185,69 @@ class NotificationsMenuActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            val textViewsAndButtons = listOf(
+                NotificationsHeader, SoundHeader, soundText, PushupsHeader, pushOneText, pushTwoText
+            )
+            val textColor = Color.BLACK
+            textViewsAndButtons.forEach { view ->
+                view.setTextColor(textColor)
+            }
+            val checkBoxes = listOf(
+                soundCheckBox, pushOneCheckbox, pushTwoCheckbox
+            )
+            checkBoxes.forEach { checkBox ->
+                val compoundButtonDrawable = CompoundButtonCompat.getButtonDrawable(checkBox)
+                compoundButtonDrawable?.setTint(textColor)
+                CompoundButtonCompat.setButtonTintList(checkBox, ColorStateList.valueOf(textColor))
+            }
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            saveButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            saveButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBarNotification.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            val textViewsAndButtons = listOf(
+                NotificationsHeader, SoundHeader, soundText, PushupsHeader, pushOneText, pushTwoText
+            )
+            val textColor = Color.WHITE
+            textViewsAndButtons.forEach { view ->
+                view.setTextColor(textColor)
+            }
+            val checkBoxes = listOf(
+                soundCheckBox, pushOneCheckbox, pushTwoCheckbox
+            )
+            checkBoxes.forEach { checkBox ->
+                val compoundButtonDrawable = CompoundButtonCompat.getButtonDrawable(checkBox)
+                compoundButtonDrawable?.setTint(textColor)
+                CompoundButtonCompat.setButtonTintList(checkBox, ColorStateList.valueOf(textColor))
+            }
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            saveButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            saveButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            progressBarNotification.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
 }

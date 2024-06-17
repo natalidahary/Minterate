@@ -2,14 +2,23 @@ package com.example.myapplication.changesUpdates
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -54,6 +63,7 @@ class ChangeMobileMenuActivity : AppCompatActivity() {
     private lateinit var changeMobileMenuBTNExitButton: MaterialButton
     private lateinit var countryCodePicker: CountryCodePicker
     private lateinit var progressBar: ProgressBar
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var oldMobile: String
     private lateinit var mobile: String
     private lateinit var userToken: String
@@ -86,6 +96,7 @@ class ChangeMobileMenuActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
 
         binding.changeMobileMenuSave.setOnClickListener {
@@ -156,6 +167,7 @@ class ChangeMobileMenuActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.change_mobile_menu_progressBar)
         changeMobileHeader = findViewById(R.id.change_mobile_menu_TVW_header)
         verificationCodeHeader = findViewById(R.id.change_mobile_menu_TVW_verificationCodeHeader)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -294,6 +306,59 @@ class ChangeMobileMenuActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        // Update screen colors and text colors based on the mode state
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray)) // Set the background color to white
+            // Set text colors
+            oldMobileEditText.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            oldMobileEditText.setHintTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            oldMobileEditText.setBackgroundResource(R.drawable.rectangle_input_black)
+            newMobileEditText.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            newMobileEditText.setHintTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            newMobileEditText.setBackgroundResource(R.drawable.rectangle_input_black)
+            changeMobileMenuSave.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeMobileMenuBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeMobileHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            verificationCodeHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeMobileMenuSave.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeMobileMenuBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+            countryCodePicker.setBackgroundResource(R.drawable.rectangle_input_gray)
+
+        } else {
+            // Restore default colors
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background) // Restore to your default background
+            oldMobileEditText.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            oldMobileEditText.setBackgroundResource(R.drawable.rectangle_input)
+            oldMobileEditText.setHintTextColor(Color.BLACK)
+            newMobileEditText.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            newMobileEditText.setBackgroundResource(R.drawable.rectangle_input)
+            newMobileEditText.setHintTextColor(Color.BLACK)
+            changeMobileMenuSave.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeMobileMenuBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeMobileHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            verificationCodeHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeMobileMenuSave.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            changeMobileMenuBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+            countryCodePicker.setBackgroundResource(R.drawable.rectangle_input)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         soundManager.release()

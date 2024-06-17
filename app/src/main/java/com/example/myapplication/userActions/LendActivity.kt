@@ -2,17 +2,23 @@ package com.example.myapplication.userActions
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -63,8 +69,12 @@ class LendActivity : AppCompatActivity() {
     private lateinit var interestHeader: AppCompatTextView
     private lateinit var periodHeader: AppCompatTextView
     private lateinit var syndicationHeader: AppCompatTextView
+    private lateinit var syndicationHeader2:AppCompatTextView
     private lateinit var consortiumHeader: AppCompatTextView
+    private lateinit var consortiumHeader2: AppCompatTextView
     private lateinit var publishOfferHeader: AppCompatTextView
+    private lateinit var publishOfferHeader2: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
 
     private lateinit var userData: UserDataResponse
     private lateinit var userToken: String
@@ -100,6 +110,7 @@ class LendActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
         binding.lendEDTExpirationText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -183,8 +194,12 @@ class LendActivity : AppCompatActivity() {
         interestHeader = findViewById(R.id.lend_TVW_interestHeader)
         periodHeader = findViewById(R.id.lend_TVW_periodHeader)
         syndicationHeader =  findViewById(R.id.lend_TVW_syndicationHeader)
+        syndicationHeader2 = findViewById(R.id.lend_TVW_syndicationHeader2)
         consortiumHeader = findViewById(R.id.lend_TVW_consortiumHeader)
+        consortiumHeader2 =  findViewById(R.id.lend_TVW_consortiumHeader2)
         publishOfferHeader = findViewById(R.id.lend_TVW_publishOfferHeader)
+        publishOfferHeader2 = findViewById(R.id.lend_TVW_publishOfferHeader2)
+        minterateLogo = findViewById(R.id.logo)
     }
 
     private fun validateAmount(callback: (Boolean) -> Unit) {
@@ -279,12 +294,88 @@ class LendActivity : AppCompatActivity() {
         val textViews = listOf(
             amountText, rateText, periodText, expirationText,
             lendHeader, conditionHeader, interestHeader, periodHeader,
-            syndicationHeader, consortiumHeader, publishOfferHeader
+            syndicationHeader, syndicationHeader2, consortiumHeader, consortiumHeader2,  publishOfferHeader, publishOfferHeader2
         )
         textViews.forEach { textView ->
             textView.textSize = textView.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        val elements = listOf(
+            amountText, rateText, periodText, expirationText
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            allowLoanSyndication.setTextColor(Color.BLACK)
+            allowLoanSyndication.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            allowLoanConsortium.setTextColor(Color.BLACK)
+            allowLoanConsortium.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            lendHeader.setTextColor(Color.BLACK)
+            conditionHeader.setTextColor(Color.BLACK)
+            interestHeader.setTextColor(Color.BLACK)
+            periodHeader.setTextColor(Color.BLACK)
+            syndicationHeader.setTextColor(Color.BLACK)
+            syndicationHeader2.setTextColor(Color.BLACK)
+            consortiumHeader.setTextColor(Color.BLACK)
+            consortiumHeader2.setTextColor(Color.BLACK)
+            publishOfferHeader.setTextColor(Color.BLACK)
+            publishOfferHeader2.setTextColor(Color.BLACK)
+            approveButton.setTextColor(Color.WHITE)
+            approveButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setTextColor(Color.WHITE)
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBarLend.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.lender_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.BLACK)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            allowLoanSyndication.setTextColor(Color.WHITE)
+            allowLoanSyndication.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            allowLoanConsortium.setTextColor(Color.WHITE)
+            allowLoanConsortium.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            lendHeader.setTextColor(Color.BLACK)
+            conditionHeader.setTextColor(Color.BLACK)
+            interestHeader.setTextColor(Color.BLACK)
+            periodHeader.setTextColor(Color.BLACK)
+            syndicationHeader.setTextColor(Color.WHITE)
+            syndicationHeader2.setTextColor(Color.WHITE)
+            consortiumHeader.setTextColor(Color.WHITE)
+            consortiumHeader2.setTextColor(Color.WHITE)
+            publishOfferHeader.setTextColor(Color.WHITE)
+            publishOfferHeader2.setTextColor(Color.WHITE)
+            approveButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            approveButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            progressBarLend.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         super.onDestroy()

@@ -1,14 +1,21 @@
 package com.example.myapplication.changesUpdates
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.R
 import com.example.myapplication.loginActivity.LoginActivity
 import com.example.myapplication.serverOperations.RetrofitInterface
@@ -42,12 +49,14 @@ class UpdatePasswordFinalLoginActivity : AppCompatActivity() {
     private lateinit var newPassword: AppCompatEditText
     private lateinit var confirmPassword: AppCompatEditText
     private lateinit var savePassButton: MaterialButton
+    private lateinit var exitButton: MaterialButton
     private lateinit var auth: FirebaseAuth
     private lateinit var passwordProgressBar: ProgressBar
     private lateinit var updatePasswordHeader: AppCompatTextView
     private lateinit var soundManager: SoundManager
     private lateinit var email: String
     private lateinit var password: String
+    private lateinit var minterateLogo: AppCompatImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +71,8 @@ class UpdatePasswordFinalLoginActivity : AppCompatActivity() {
         soundManager = SoundManager(this)
 
         email = intent.getStringExtra("email").toString()
+
+        applyBlackAndWhiteMode()
 
         binding.updatePasswordLoginFinalBTNSave.setOnClickListener {
             val newPassword = binding.updatePasswordLoginFinalEDTNewPassword.text.toString()
@@ -110,6 +121,8 @@ class UpdatePasswordFinalLoginActivity : AppCompatActivity() {
         savePassButton = findViewById(R.id.update_password_login_final_BTN_save)
         passwordProgressBar = findViewById(R.id.update_password_login_final_progressBar)
         updatePasswordHeader = findViewById(R.id.update_password_login_final_TVW_header)
+        exitButton = findViewById(R.id.update_password_login_final_BTN_exitButton)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -217,6 +230,55 @@ class UpdatePasswordFinalLoginActivity : AppCompatActivity() {
         private const val MIN_PASSWORD_LENGTH = 8
         private const val MAX_PASSWORD_LENGTH = 128
     }
+
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        val elements = listOf(
+            newPassword, confirmPassword
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            updatePasswordHeader.setTextColor(Color.BLACK)
+            savePassButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            savePassButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            passwordProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.BLACK)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            updatePasswordHeader.setTextColor(Color.WHITE)
+            savePassButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            savePassButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            passwordProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         soundManager.release()

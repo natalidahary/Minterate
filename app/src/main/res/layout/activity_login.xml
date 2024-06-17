@@ -3,11 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/login_background"
+    android:background="@drawable/general_background"
     tools:context="com.example.myapplication.loginActivity.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/login_EDT_email"

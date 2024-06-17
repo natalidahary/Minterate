@@ -1,14 +1,18 @@
 package com.example.myapplication.userPreferences
-
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.icu.text.DecimalFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.webkit.WebView
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.AppData
 import com.example.myapplication.userActions.BorrowAgreementActivity
@@ -45,6 +49,7 @@ class ChooseLoanActivity : AppCompatActivity() {
     private lateinit var periodLoan: AppCompatTextView
     private lateinit var interestLoan: AppCompatTextView
     private lateinit var monthlyLoan: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var userToken: String
     private lateinit var amount: String
     private lateinit var lId: String
@@ -57,7 +62,7 @@ class ChooseLoanActivity : AppCompatActivity() {
     private lateinit var loanData: LoanDataResponse
     private lateinit var desiredAmount: String
     private lateinit var desiredPeriod: String
-    private lateinit var webView: WebView
+   private lateinit var loanDetailsHeader: AppCompatTextView
 
     private var textScalar by Delegates.notNull<Float>()
     private lateinit var soundManager: SoundManager
@@ -102,7 +107,7 @@ class ChooseLoanActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
-
+        applyBlackAndWhiteMode()
 
         binding.chooseLoanBTNGetLoan.setOnClickListener {
             soundManager.playClickSound()
@@ -126,6 +131,8 @@ class ChooseLoanActivity : AppCompatActivity() {
         periodLoan = findViewById(R.id.choose_loan_TVW_periodLoan)
         interestLoan = findViewById(R.id.choose_loan_TVW_interestLoan)
         monthlyLoan = findViewById(R.id.choose_loan_TVW_monthlyLoan)
+        minterateLogo = findViewById(R.id.logo)
+        loanDetailsHeader = findViewById(R.id.choose_loan_TVW_loanDetailsHeader)
     }
 
 
@@ -304,8 +311,8 @@ class ChooseLoanActivity : AppCompatActivity() {
     }
 
     private fun exitPage(){
-        soundManager.playClickSound()
         unlockLoan()
+        soundManager.playClickSound()
         val intent = Intent(this, AvailableLoansActivity::class.java)
         intent.putExtra("desiredAmount", desiredAmount)
         intent.putExtra("desiredPeriod", desiredPeriod)
@@ -313,8 +320,60 @@ class ChooseLoanActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+            loanDetailsHeader.setTextColor(Color.BLACK)
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            amountHeader.setTextColor(Color.BLACK)
+            periodHeader.setTextColor(Color.BLACK)
+            interestHeader.setTextColor(Color.BLACK)
+            monthlyHeader.setTextColor(Color.BLACK)
+            amountLoan.setTextColor(Color.BLACK)
+            periodLoan.setTextColor(Color.BLACK)
+            interestLoan.setTextColor(Color.BLACK)
+            monthlyLoan.setTextColor(Color.BLACK)
+            getLoanButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            getLoanButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+            loanDetailsHeader.setTextColor(Color.WHITE)
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            amountHeader.setTextColor(Color.WHITE)
+            periodHeader.setTextColor(Color.WHITE)
+            interestHeader.setTextColor(Color.WHITE)
+            monthlyHeader.setTextColor(Color.WHITE)
+            amountLoan.setTextColor(Color.WHITE)
+            periodLoan.setTextColor(Color.WHITE)
+            interestLoan.setTextColor(Color.WHITE)
+            monthlyLoan.setTextColor(Color.WHITE)
+            getLoanButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            getLoanButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
+
     override fun onDestroy() {
+        unlockLoan()
         soundManager.release()
         super.onDestroy()
+    }
+
+    override fun onPause() {
+        unlockLoan()
+        super.onPause()
     }
 }

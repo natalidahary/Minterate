@@ -2,13 +2,19 @@ package com.example.myapplication.userActions
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -44,11 +50,13 @@ class BorrowActivity : AppCompatActivity() {
     private lateinit var exitButton: MaterialButton
     private lateinit var progressBarBorrow: ProgressBar
     private lateinit var presentedLoansHeader: AppCompatTextView
+    private lateinit var presentedLoansHeader2: AppCompatTextView
     private lateinit var borrowHeader: AppCompatTextView
     private lateinit var userData: UserDataResponse
     private lateinit var userToken: String
     private lateinit var amount: String
     private lateinit var period: String
+    private lateinit var minterateLogo: AppCompatImageView
 
     private var textScalar by Delegates.notNull<Float>()
     private lateinit var soundManager: SoundManager
@@ -71,6 +79,7 @@ class BorrowActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
 
         binding.borrowBTNShowLoansButton.setOnClickListener {
@@ -112,8 +121,10 @@ class BorrowActivity : AppCompatActivity() {
         progressBarBorrow = findViewById(R.id.borrow_progressBar)
         exitButton = findViewById(R.id.borrow_BTN_exitButton)
         presentedLoansHeader = findViewById(R.id.borrow_TVW_presentedLoansHeader)
+        presentedLoansHeader2 = findViewById(R.id.borrow_TVW_presentedLoansHeader2)
         borrowHeader = findViewById(R.id.borrow_TVW_header)
-        periodHeader = findViewById(R.id.borrow_TVW_header)
+        periodHeader = findViewById(R.id.borrow_TVW_periodHeader)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -172,13 +183,70 @@ class BorrowActivity : AppCompatActivity() {
 
     private fun applyTextScalar() {
         val textViews = listOf(
-            amountTxt, periodTxt, presentedLoansHeader,
+            amountTxt, periodTxt, presentedLoansHeader, presentedLoansHeader2,
             borrowHeader, periodHeader
         )
         textViews.forEach { textView ->
             textView.textSize = textView.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        val elements = listOf(
+            amountTxt, periodTxt
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            presentedLoansHeader.setTextColor(Color.BLACK)
+            presentedLoansHeader2.setTextColor(Color.BLACK)
+            borrowHeader.setTextColor(Color.BLACK)
+            periodHeader.setTextColor(Color.BLACK)
+            showLoansButton.setTextColor(Color.WHITE)
+            showLoansButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setTextColor(Color.WHITE)
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBarBorrow.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.borrow_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.BLACK)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            presentedLoansHeader.setTextColor(Color.WHITE)
+            presentedLoansHeader2.setTextColor(Color.WHITE)
+            borrowHeader.setTextColor(Color.BLACK)
+            periodHeader.setTextColor(Color.BLACK)
+            showLoansButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            showLoansButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            progressBarBorrow.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         super.onDestroy()

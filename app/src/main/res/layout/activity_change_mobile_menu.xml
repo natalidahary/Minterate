@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -30,11 +31,11 @@
         android:layout_marginTop="76dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
-        android:hint="Change My Mobile"
+        android:text="Change My Mobile"
         android:gravity="center"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +106,25 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/change_mobile_menu_newCountryCode_bw"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="268dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_input_gray"
+        app:ccp_showFlag="false"
+        app:ccp_showNameCode="false"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.271"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/change_mobile_menu_TVW_verificationCodeHeader"
         style="@style/TextSizeMedium"
@@ -113,10 +133,10 @@
         android:layout_marginTop="368dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="verification code will be sent"
+        android:text="verification code will be sent"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.431"
         app:layout_constraintStart_toStartOf="parent"
@@ -150,6 +170,21 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/change_mobile_menu_EDT_newMobile" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

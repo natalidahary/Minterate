@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/lend_background"
+    android:background="@drawable/lender_background"
     tools:context="com.example.myapplication.userActions.LendActivity">
 
 
@@ -47,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="150dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
         android:hint="Conditions"
@@ -84,7 +85,7 @@
         android:layout_width="180dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/TextColorYellow"
         android:fontFamily="@font/js"
@@ -92,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lend_TVW_publishOfferHeader" />
+        app:layout_constraintTop_toBottomOf="@id/lend_TVW_publishOfferHeader2" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/lend_TVW_syndicationHeader"
@@ -104,10 +105,29 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Allow loan syndication \nRecommended"
+        android:text="Allow loan syndication"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lend_TVW_syndicationHeader2"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="404dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Recommended"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,14 +143,34 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Allow loan consortium \nRecommended"
+        android:text="Allow loan consortium"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lend_TVW_consortiumHeader2"
+        style="@style/TextSizeMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="Recommended"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/lend_EDT_periodText"
@@ -176,6 +216,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="388dp"
         android:layout_marginEnd="292dp"
+        android:textColor="@color/TextColorWhite"
         android:buttonTint="@color/TextColorWhite"
         android:checked="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -203,21 +244,41 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/lend_TVW_publishOfferHeader"
         style="@style/TextSizeMediumS"
-        android:layout_width="248dp"
-        android:layout_height="66dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="512dp"
+        android:layout_marginTop="500dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="The offer will be published and\navailable until expiration date"
+        android:text="The offer will be published and"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lend_TVW_publishOfferHeader2"
+        style="@style/TextSizeMediumS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="525dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="available until expiration date"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/lend_TVW_interestHeader"
@@ -244,6 +305,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="440dp"
         android:layout_marginEnd="292dp"
+        android:textColor="@color/TextColorWhite"
         android:buttonTint="@color/TextColorWhite"
         android:checked="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -254,7 +316,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="135dp"
         android:indeterminateTint="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -266,7 +328,7 @@
         android:id="@+id/blackHorizontalLine2"
         android:layout_width="300dp"
         android:layout_height="1.5dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="2dp"
         android:background="@color/TextColorDarkBlue"
         app:layout_constraintBottom_toTopOf="@+id/lend_TVW_publishOfferHeader"
         app:layout_constraintEnd_toEndOf="parent"
@@ -304,6 +366,20 @@
         app:layout_constraintHorizontal_bias="0.417"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,9 @@
 package com.example.myapplication.changesUpdates
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -10,10 +13,14 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.loginActivity.LoginActivity
 import com.example.myapplication.R
 import com.example.myapplication.userPreferences.SoundManager
@@ -41,6 +48,7 @@ class UpdatePasswordOtpLoginActivity : AppCompatActivity() {
     private lateinit var progressBar : ProgressBar
     private lateinit var auth: FirebaseAuth
     private lateinit var resendOTP: AppCompatTextView
+    private lateinit var receiveOTP: AppCompatTextView
     private lateinit var updatePasswordOtpLoginBTNVerify: MaterialButton
     private lateinit var updatePasswordOtpLoginBTNExitButton: MaterialButton
     private  lateinit var otp: String
@@ -48,7 +56,7 @@ class UpdatePasswordOtpLoginActivity : AppCompatActivity() {
     private lateinit var email: String
     private lateinit var mobile: String
     private lateinit var mobileOTP: AppCompatTextView
-
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var otpVerificationHeader: AppCompatTextView
     private lateinit var enterOtpHeader: AppCompatTextView
 
@@ -84,6 +92,8 @@ class UpdatePasswordOtpLoginActivity : AppCompatActivity() {
 
         soundManager = SoundManager(this)
         //soundManager.setSoundEnabled(userData.sounds)
+        applyBlackAndWhiteMode()
+
         binding.updatePasswordOtpLoginBTNVerify.setOnClickListener{
 
             val typdOTP = (input1OTP.text.toString() + input2OTP.text.toString() + input3OTP.text.toString() + input4OTP.text.toString()+ input5OTP.text.toString()+ input6OTP.text.toString())
@@ -124,8 +134,10 @@ class UpdatePasswordOtpLoginActivity : AppCompatActivity() {
         otpVerificationHeader = findViewById(R.id.update_password_otp_login_TVW_verificationHeader)
         enterOtpHeader = findViewById(R.id.update_password_otp_login_TVW_enterOtp)
         resendOTP = findViewById(R.id.update_password_otp_login_TVW_resendOTP)
+        receiveOTP = findViewById(R.id.update_password_otp_login_TVW_receiveOTP)
         updatePasswordOtpLoginBTNVerify = findViewById(R.id.update_password_otp_login_BTN_verify)
         mobileOTP = findViewById(R.id.update_password_otp_login_TVW_mobileOTP)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -262,6 +274,63 @@ class UpdatePasswordOtpLoginActivity : AppCompatActivity() {
             return -1
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        val elements = listOf(
+            input1OTP, input2OTP, input3OTP, input4OTP, input5OTP, input6OTP
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            otpVerificationHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            enterOtpHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            resendOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            receiveOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            mobileOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            updatePasswordOtpLoginBTNVerify.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            updatePasswordOtpLoginBTNVerify.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            updatePasswordOtpLoginBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            updatePasswordOtpLoginBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            // Restore default colors
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            otpVerificationHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            enterOtpHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            resendOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            receiveOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            mobileOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            updatePasswordOtpLoginBTNVerify.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            updatePasswordOtpLoginBTNVerify.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            updatePasswordOtpLoginBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            updatePasswordOtpLoginBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         super.onDestroy()

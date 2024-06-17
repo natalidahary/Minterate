@@ -5,9 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/general_background"
     tools:context=".IntroductoryActivity">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img"
         android:layout_width="wrap_content"
         android:layout_height="800dp"
@@ -18,11 +19,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logo"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:src="@drawable/minterate_logo"
+        android:src="@drawable/icon_minterate"
         app:layout_constraintVertical_bias=".1"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -2,6 +2,8 @@ package com.example.myapplication.changesUpdates
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -10,11 +12,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.serverOperations.RetrofitInterface
@@ -30,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.hbb20.CountryCodePicker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,7 +64,9 @@ class ChangeMobileMenuOtpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var changeMobileOtpMenuBTNExitButton: MaterialButton
     private lateinit var resendOTP: AppCompatTextView
+    private lateinit var receiveOTP: AppCompatTextView
     private lateinit var changeMobileOtpMenuBTNVerify: MaterialButton
+    private lateinit var exitButton: MaterialButton
     private lateinit var otp: String
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var userToken: String
@@ -66,6 +74,9 @@ class ChangeMobileMenuOtpActivity : AppCompatActivity() {
     private lateinit var mobileOTP: AppCompatTextView
     private lateinit var otpVerificationHeader: AppCompatTextView
     private lateinit var enterOtpHeader: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
+    private lateinit var codePicker: CountryCodePicker
+    private lateinit var codePickerBw: CountryCodePicker
 
     private var textScalar by Delegates.notNull<Float>()
     private lateinit var soundManager: SoundManager
@@ -87,6 +98,7 @@ class ChangeMobileMenuOtpActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
         addTextChangeListener()
         resendOTPvVisibility()
@@ -147,10 +159,15 @@ class ChangeMobileMenuOtpActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.change_mobile_otp_menu_progressBar)
         changeMobileOtpMenuBTNExitButton = findViewById(R.id.change_mobile_otp_menu_BTN_exitButton)
         resendOTP = findViewById(R.id.change_mobile_otp_menu_TVW_resendOTP)
+        receiveOTP = findViewById(R.id.change_mobile_otp_menu_TVW_receiveOTP)
         changeMobileOtpMenuBTNVerify =findViewById(R.id.change_mobile_otp_menu_BTN_verify)
         mobileOTP = findViewById(R.id.change_mobile_otp_menu_TVW_mobileOTP)
         otpVerificationHeader = findViewById(R.id.change_mobile_otp_menu_TVW_verificationHeader)
         enterOtpHeader = findViewById(R.id.change_mobile_otp_menu_TVW_header)
+        exitButton = findViewById(R.id.change_mobile_otp_menu_BTN_exitButton)
+        minterateLogo = findViewById(R.id.logo)
+        codePicker = findViewById(R.id.change_mobile_menu_newCountryCode)
+        codePickerBw = findViewById(R.id.change_mobile_menu_newCountryCode_bw)
     }
 
     private fun resendOTPvVisibility() {
@@ -339,6 +356,73 @@ class ChangeMobileMenuOtpActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        val elements = listOf(
+            input1OTP, input2OTP, input3OTP, input4OTP, input5OTP, input6OTP
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            otpVerificationHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            enterOtpHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            resendOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            receiveOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            mobileOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeMobileOtpMenuBTNVerify.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeMobileOtpMenuBTNVerify.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+            codePicker.visibility = View.INVISIBLE
+            codePickerBw.visibility = View.VISIBLE
+            codePickerBw.setBackgroundResource(R.drawable.rectangle_input_gray)
+
+
+        } else {
+            // Restore default colors
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            otpVerificationHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            enterOtpHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            resendOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            receiveOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            mobileOTP.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeMobileOtpMenuBTNVerify.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeMobileOtpMenuBTNVerify.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+
+            codePicker.visibility = View.VISIBLE
+            codePickerBw.visibility = View.INVISIBLE
+            codePicker.setBackgroundResource(R.drawable.rectangle_input)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
+
 
     override fun onDestroy() {
         soundManager.release()

@@ -34,7 +34,7 @@
             android:name=".userPreferences.DeleteUserMenuActivity"
             android:exported="false" />
         <activity
-            android:name=".userPreferences.HelpMenuActivity"
+            android:name=".userInformation.HelpMenuActivity"
             android:exported="false" />
         <activity
             android:name=".userPreferences.LoansMenuActivity"
@@ -113,6 +113,12 @@
             android:exported="false" />
         <activity
             android:name=".loginActivity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userInformation.TermsPrivacyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userInformation.AboutMenuActivity"
             android:exported="false" />
         <activity
             android:name=".IntroductoryActivity"

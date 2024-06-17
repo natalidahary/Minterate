@@ -6,9 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/login_background"
+    android:background="@drawable/general_background"
     tools:context="com.example.myapplication.signupActivity.SignupSecondOtpActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signup_second_otp_BTN_exitButton"
@@ -94,7 +108,7 @@
         android:layout_height="1.5dp"
         android:layout_marginBottom="24dp"
         android:background="@color/TextColorDarkBlue"
-        app:layout_constraintBottom_toTopOf="@+id/change_mobile_otp_menu_TVW_resendOTP"
+        app:layout_constraintBottom_toTopOf="@+id/signup_second_otp_TVW_resendOTP"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"

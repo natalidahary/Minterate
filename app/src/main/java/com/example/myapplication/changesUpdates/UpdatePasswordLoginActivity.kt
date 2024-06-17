@@ -1,7 +1,10 @@
 package com.example.myapplication.changesUpdates
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +12,15 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.R
 import com.example.myapplication.loginActivity.LoginActivity
 import com.example.myapplication.serverOperations.RetrofitInterface
@@ -56,7 +63,7 @@ class UpdatePasswordLoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var phoneProgressBar: ProgressBar
     private lateinit var verificationCodeHeader: AppCompatTextView
-
+    private lateinit var minterateLogo: AppCompatImageView
 
     private lateinit var soundManager: SoundManager
     private lateinit var email: String
@@ -74,6 +81,7 @@ class UpdatePasswordLoginActivity : AppCompatActivity() {
         phoneProgressBar.visibility = View.INVISIBLE
         signupCountryCode.registerCarrierNumberEditText(signMobile)
         soundManager = SoundManager(this)
+        applyBlackAndWhiteMode()
 
         binding.updatePasswordLoginBTNNextButton.setOnClickListener {
             val signEmail = binding.updatePasswordLoginEDTSignEmail.text.toString()
@@ -131,6 +139,7 @@ class UpdatePasswordLoginActivity : AppCompatActivity() {
         signupCountryCode = findViewById(R.id.update_password_login_countryCode)
         phoneProgressBar = findViewById(R.id.update_password_login_progressBar)
         verificationCodeHeader = findViewById(R.id.update_password_login_TVW_verificationCodeHeader)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -280,6 +289,58 @@ class UpdatePasswordLoginActivity : AppCompatActivity() {
         })
     }
 
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        val elements = listOf(
+            signEmail, signMobile
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            updatePasswordHeader.setTextColor(Color.BLACK)
+            verificationCodeHeader.setTextColor(Color.BLACK)
+            updatePasswordLoginBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            updatePasswordLoginBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            updatePasswordLoginBTNNextButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            updatePasswordLoginBTNNextButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            phoneProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.BLACK)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            updatePasswordHeader.setTextColor(Color.WHITE)
+            verificationCodeHeader.setTextColor(Color.WHITE)
+            updatePasswordLoginBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            updatePasswordLoginBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            updatePasswordLoginBTNNextButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            updatePasswordLoginBTNNextButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            phoneProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
     override fun onDestroy() {
         soundManager.release()
         super.onDestroy()

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.myapplication.loginActivity.LoginActivity
@@ -12,8 +13,8 @@ import com.example.myapplication.userPreferences.SoundManager
 
 class IntroductoryActivity : AppCompatActivity() {
 
-    private lateinit var logo: ImageView
-    private lateinit var splashImg: ImageView
+    private lateinit var logo: AppCompatImageView
+    private lateinit var splashImg: AppCompatImageView
     private lateinit var lottieAnimationView: LottieAnimationView
     private lateinit var soundManager: SoundManager
 

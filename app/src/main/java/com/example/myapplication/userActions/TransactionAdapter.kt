@@ -1,5 +1,7 @@
 package com.example.myapplication.userActions
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.requestResponse.Transaction
 
-class TransactionAdapter(private val id: String, private var transactions: List<Transaction>) :
+class TransactionAdapter( private val context: Context, private val id: String, private var transactions: List<Transaction>) :
     RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
+
+    private val preferences: SharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    private val isBWMode: Boolean = preferences.getBoolean("isBlackAndWhiteMode", false)
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // Define views inside the rectangle item
@@ -24,36 +29,45 @@ class TransactionAdapter(private val id: String, private var transactions: List<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_transaction_adapter, parent, false)
-        return ViewHolder(itemView)
+        if(isBWMode){
+            val itemView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.activity_transaction_adapter_bw, parent, false)
+            return ViewHolder(itemView)
+        }else{
+            val itemView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.activity_transaction_adapter, parent, false)
+            return ViewHolder(itemView)
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction = transactions[position]
-        var income = true
-        if(transaction.destination != id){
-            income = false
-        }
+        val income = transaction.destination == id
+
         if (income) {
-            holder.transactionName.text = transaction.originFirstName + " " + transaction.originLastName
-            holder.transactionAmount.setTextColor(ContextCompat.getColor(holder.itemView.context,
-                R.color.greenAmount
-            ))
-            holder.transactionAmount.text = "+" + formatWithCommas(transaction.amount.toString()) + extractCurrencySymbol(transaction.currency.toString())
-
+            holder.transactionName.text = "${transaction.originFirstName} ${transaction.originLastName}"
+            holder.transactionAmount.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    if (isBWMode) R.color.TextColorBlack else R.color.greenAmount
+                )
+            )
+            holder.transactionAmount.text = "+${formatWithCommas(transaction.amount.toString())}${extractCurrencySymbol(transaction.currency.toString())}"
         } else {
-            // Set the default color or positive color
-            holder.transactionName.text = transaction.destinationFirstName + " " + transaction.destinationLastName
-            holder.transactionAmount.setTextColor(ContextCompat.getColor(holder.itemView.context,
-                R.color.redAmount
-            ))
-            holder.transactionAmount.text = "-" + formatWithCommas(transaction.amount.toString()) + extractCurrencySymbol(transaction.currency.toString())
-
+            holder.transactionName.text = "${transaction.destinationFirstName} ${transaction.destinationLastName}"
+            holder.transactionAmount.setTextColor(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    if (isBWMode) R.color.TextColorBlack else R.color.redAmount
+                )
+            )
+            holder.transactionAmount.text = "-${formatWithCommas(transaction.amount.toString())}${extractCurrencySymbol(transaction.currency.toString())}"
         }
+
         holder.transactionDate.text = transaction.date
         holder.transactionCount.text = transaction.paymentCount
     }
+
 
 
     override fun getItemCount(): Int {

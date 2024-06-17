@@ -5,15 +5,23 @@ import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.changesUpdates.ChangeAddressMenuActivity
@@ -29,10 +37,12 @@ import com.example.myapplication.serverOperations.RetrofitManager
 import com.example.myapplication.userActions.BorrowActivity
 import com.example.myapplication.userActions.LendActivity
 import com.example.myapplication.userActions.TransactionAdapter
+import com.example.myapplication.userInformation.AboutMenuActivity
+import com.example.myapplication.userInformation.TermsPrivacyActivity
 import com.example.myapplication.userPreferences.AccessibilityMenuActivity
 import com.example.myapplication.userPreferences.CurrencyMenuActivity
 import com.example.myapplication.userPreferences.DeleteUserMenuActivity
-import com.example.myapplication.userPreferences.HelpMenuActivity
+import com.example.myapplication.userInformation.HelpMenuActivity
 import com.example.myapplication.userPreferences.LoansMenuActivity
 import com.example.myapplication.userPreferences.NotificationsMenuActivity
 import com.example.myapplication.userPreferences.SoundManager
@@ -63,18 +73,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var borrowButton: MaterialButton
     private lateinit var settingButton: MaterialButton
     private lateinit var personalButton: MaterialButton
+    private lateinit var settingButtonBw: MaterialButton
+    private lateinit var personalButtonBw: MaterialButton
     private lateinit var personalDialog: Dialog
     private lateinit var settingsDialog: Dialog
     private lateinit var recyclerView: RecyclerView
     private lateinit var transactionAdapter: TransactionAdapter
     private lateinit var totalLoansText: AppCompatTextView
     private lateinit var transactionsText: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
+    private lateinit var triangleBar: AppCompatImageView
     private lateinit var userToken: String
     private lateinit var userData: UserDataResponse
     private var textScalar by Delegates.notNull<Float>()
     private lateinit var soundManager: SoundManager
     private var dialogsOpened: Boolean = false
-
+    private var preferences: SharedPreferences? = null
+    //private val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    private var isBWMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,18 +99,20 @@ class MainActivity : AppCompatActivity() {
 
         findViews()
         textScalar = retrieveTextScalarFromPreferences()
-
         loadDataToMain()
-
+        preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        isBWMode = preferences?.getBoolean("isBlackAndWhiteMode", false) ?: false
         // Initialize and set up the RecyclerView with the list of transactions
         recyclerView = findViewById(R.id.main_transactionRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
 
-        transactionAdapter = TransactionAdapter(userData.id, emptyList())
+        transactionAdapter = TransactionAdapter(this,userData.id, emptyList())
         recyclerView.adapter = transactionAdapter
 
         soundManager = SoundManager(this)
         soundManager.setSoundEnabled(userData.sounds)
+
+        applyBlackAndWhiteMode()
 
         binding.mainBTNLendButton.setOnClickListener {
             soundManager.setSoundEnabled(userData.sounds)
@@ -122,6 +140,18 @@ class MainActivity : AppCompatActivity() {
             showMenuSettingsDialog()
         }
 
+        binding.mainBTNPersonalButtonBw.setOnClickListener {
+            soundManager.setSoundEnabled(userData.sounds)
+            soundManager.playClickSound()
+            showMenuPersonalDialog()
+        }
+
+        binding.mainBTNSettingButtonBw.setOnClickListener {
+            soundManager.setSoundEnabled(userData.sounds)
+            soundManager.playClickSound()
+            showMenuSettingsDialog()
+        }
+
     }
 
     private fun findViews() {
@@ -131,8 +161,12 @@ class MainActivity : AppCompatActivity() {
         borrowButton = findViewById(R.id.main_BTN_borrowButton)
         settingButton = findViewById(R.id.main_BTN_settingButton)
         personalButton = findViewById(R.id.main_BTN_personalButton)
+        settingButtonBw = findViewById(R.id.main_BTN_settingButton_bw)
+        personalButtonBw = findViewById(R.id.main_BTN_personalButton_bw)
         totalLoansText = findViewById(R.id.main_TVW_totalLoansText)
         transactionsText = findViewById(R.id.main_TVW_transactionsText)
+        minterateLogo = findViewById(R.id.logo)
+        triangleBar = findViewById(R.id.main_IMG_triangleBar)
     }
 
 
@@ -149,7 +183,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.main_transactionRecyclerView)
 
         // Initialize and set up the RecyclerView with the list of transactions
-        transactionAdapter = TransactionAdapter(userData.id, transactions)
+        transactionAdapter = TransactionAdapter(this,userData.id, transactions)
 
         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         recyclerView.adapter = transactionAdapter
@@ -190,7 +224,11 @@ class MainActivity : AppCompatActivity() {
         layoutParams.gravity = Gravity.START or Gravity.CENTER_VERTICAL
         personalDialog.window?.attributes = layoutParams
 
-        personalDialog.setContentView(R.layout.activity_personal_menu)
+        if(isBWMode){
+            personalDialog.setContentView(R.layout.activity_personal_menu_bw)
+        }else{
+            personalDialog.setContentView(R.layout.activity_personal_menu)
+        }
 
         // Find the TextViews in the layout
         val navHome = personalDialog.findViewById<TextView>(R.id.nav_home)
@@ -209,6 +247,7 @@ class MainActivity : AppCompatActivity() {
 
         navSignOut.setOnClickListener {
             soundManager.playClickSound()
+
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -259,7 +298,11 @@ class MainActivity : AppCompatActivity() {
         layoutParams.gravity = Gravity.END or Gravity.CENTER_VERTICAL
         settingsDialog.window?.attributes = layoutParams
 
-        settingsDialog.setContentView(R.layout.activity_settings_menu)
+        if(isBWMode){
+            settingsDialog.setContentView(R.layout.activity_settings_menu_bw)
+        }else{
+            settingsDialog.setContentView(R.layout.activity_settings_menu)
+        }
 
         val navHome = settingsDialog.findViewById<TextView>(R.id.nav_home)
         val aboutUs = settingsDialog.findViewById<TextView>(R.id.nav_about)
@@ -277,12 +320,14 @@ class MainActivity : AppCompatActivity() {
 
         aboutUs.setOnClickListener {
             soundManager.playClickSound()
-            showAboutDialog()
+            val intent = Intent(this, AboutMenuActivity::class.java)
+            startActivity(intent)
         }
 
         termsPrivacy.setOnClickListener {
             soundManager.playClickSound()
-            showTermsPrivacyDialog()
+            val intent = Intent(this, TermsPrivacyActivity::class.java)
+            startActivity(intent)
         }
 
         accessibility.setOnClickListener {
@@ -313,43 +358,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun showAboutDialog() {
-        dialogsOpened = true
-        soundManager = SoundManager(this@MainActivity)
-        soundManager.setSoundEnabled(userData.sounds)
-        val aboutDialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-        aboutDialog.setContentView(R.layout.activity_about_menu)
-
-        // Find the TextViews in the layout
-        val exitButton = aboutDialog.findViewById<TextView>(R.id.update_password_login_BTN_exitButton)
-
-        exitButton.setOnClickListener {
-            soundManager.playClickSound()
-            dialogsOpened = false
-            aboutDialog.dismiss()
-        }
-        aboutDialog.show()
-    }
-
-    private fun showTermsPrivacyDialog() {
-        dialogsOpened = true
-        soundManager = SoundManager(this@MainActivity)
-        soundManager.setSoundEnabled(userData.sounds)
-        val termsPrivacyDialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-        termsPrivacyDialog.setContentView(R.layout.activity_terms_privacy)
-
-        // Find the TextViews in the layout
-        val exitButton = termsPrivacyDialog.findViewById<TextView>(R.id.update_password_login_BTN_exitButton)
-
-        exitButton.setOnClickListener {
-            soundManager.playClickSound()
-            dialogsOpened = false
-            termsPrivacyDialog.dismiss()
-        }
-        termsPrivacyDialog.show()
-    }
-
-
     private fun showSecurityOptionsDialog() {
         soundManager = SoundManager(this@MainActivity)
         soundManager.setSoundEnabled(userData.sounds)
@@ -360,7 +368,11 @@ class MainActivity : AppCompatActivity() {
         layoutParams.gravity = Gravity.NO_GRAVITY
         securityOptionsDialog.window?.attributes = layoutParams
 
-        securityOptionsDialog.setContentView(R.layout.activity_security_options)
+        if(isBWMode){
+            securityOptionsDialog.setContentView(R.layout.activity_security_options_bw)
+        }else{
+            securityOptionsDialog.setContentView(R.layout.activity_security_options)
+        }
 
         // Find the Buttons in the layout
         val navChangePassword = securityOptionsDialog.findViewById<TextView>(R.id.nav_changePassword)
@@ -530,6 +542,72 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun applyBlackAndWhiteMode() {
+        //val isBWMode = preferences?.getBoolean("isBlackAndWhiteMode", false) ?: false
+        val elements = listOf(
+            heyText, loansBalText, totalLoansText
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<RelativeLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+            }
+            transactionsText.setTextColor(Color.BLACK)
+            lendButton.setTextColor(Color.WHITE)
+            lendButton.setBackgroundColor(Color.BLACK)
+            borrowButton.setTextColor(Color.WHITE)
+            borrowButton.setBackgroundColor(Color.BLACK)
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+            triangleBar.setImageResource(R.drawable.triangle_bw)
+            triangleBar.scaleType = ImageView.ScaleType.FIT_CENTER
+
+            // Set background tint to transparent for black and white mode buttons
+            settingButtonBw.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+            personalButtonBw.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+
+            settingButtonBw.visibility = View.VISIBLE
+            personalButtonBw.visibility = View.VISIBLE
+            settingButtonBw.setBackgroundResource(R.drawable.ic_setting_button_bw)
+            personalButtonBw.setBackgroundResource(R.drawable.ic_personal_button_bw)
+
+            settingButton.visibility = View.INVISIBLE
+            personalButton.visibility = View.INVISIBLE
+        } else {
+            val rootLayout = findViewById<RelativeLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+            }
+            transactionsText.setTextColor(Color.WHITE)
+            lendButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            lendButton.setBackgroundColor(ContextCompat.getColor(this, R.color.lenderColor))
+            borrowButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            borrowButton.setBackgroundColor(ContextCompat.getColor(this, R.color.borrowColor))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+            triangleBar.setImageResource(R.drawable.triangle_bar_main)
+            triangleBar.scaleType = ImageView.ScaleType.FIT_CENTER
+            settingButton.setBackgroundResource(R.drawable.ic_setting_button)
+            personalButton.setBackgroundResource(R.drawable.ic_personal_button)
+
+            // Set background tint to null for default mode buttons
+            settingButton.backgroundTintList = null
+            personalButton.backgroundTintList = null
+        }
+    }
+
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
 }
 

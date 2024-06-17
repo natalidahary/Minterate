@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@drawable/general_background"
     tools:context="com.example.myapplication.userPreferences.LoansMenuActivity">
 
@@ -16,10 +16,8 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="X"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/available_loans_TVW_header" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loans_menu_TVW_availableLoansHeader"
@@ -30,14 +28,17 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Loans"
+        android:text="Loans"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite" />
+        android:textColor="@color/TextColorWhite"
+        android:layout_below="@id/loans_menu_BTN_exitButton"
+        android:layout_centerHorizontal="true" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loans_menu_TVW_availableLoansHeader">
 
 
         <TableLayout
@@ -80,7 +81,8 @@
         android:layout_marginTop="250dp"
         android:padding="10sp"
         android:text="Loading your loans.."
-        android:textColor="@color/TextColorWhite" />
+        android:textColor="@color/TextColorWhite"
+        android:layout_centerHorizontal="true" />
 
     <ProgressBar
         android:id="@+id/loans_menu_progressBar"
@@ -89,6 +91,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:indeterminateTint="@color/TextColorWhite" />
+        android:indeterminateTint="@color/TextColorWhite"
+        android:layout_below="@id/loans_menu_TVW_textLookingLoans"
+        android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

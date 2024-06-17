@@ -2,6 +2,7 @@ package com.example.myapplication.userPreferences
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.icu.text.DecimalFormat
 import android.os.Bundle
@@ -9,6 +10,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -16,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -62,6 +66,7 @@ class AvailableLoansActivity : AppCompatActivity() {
     private lateinit var calculatedMonthlyPaymentTextView: AppCompatTextView
     private lateinit var textAvailableLoans: AppCompatTextView
     private lateinit var sortRedirect: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var loansProgressBar: ProgressBar
     private lateinit var userToken: String
     private lateinit var userData: UserDataResponse
@@ -69,10 +74,14 @@ class AvailableLoansActivity : AppCompatActivity() {
     private lateinit var desiredPeriod: String
     private lateinit var loans: List<LoanDataResponse>
     private lateinit var lId: String
+    private lateinit var tableLayout: TableLayout
+    private lateinit var headerTableRow: TableRow
+
     private var isDataLoading: Boolean = false
 
     private var textScalar by Delegates.notNull<Float>()
     private lateinit var soundManager: SoundManager
+    private var isBWMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,10 +104,10 @@ class AvailableLoansActivity : AppCompatActivity() {
 
         soundManager = SoundManager(this)
         soundManager.setSoundEnabled(userData.sounds)
-
+        isBWMode = retrieveBlackAndWhiteModeFromPreferences()
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
-
+        applyBlackAndWhiteMode()
         retrieveLoans()
 
         // Set click listener for sort button
@@ -128,6 +137,9 @@ class AvailableLoansActivity : AppCompatActivity() {
         textAvailableLoans = findViewById(R.id.available_loans_TVW_textAvailableLoans)
         sortRedirect = findViewById(R.id.available_loans_TVW_sortRedirect)
         loansProgressBar = findViewById(R.id.available_loans_progressBar)
+        minterateLogo = findViewById(R.id.logo)
+        tableLayout = findViewById<TableLayout>(R.id.tableLayout)
+        headerTableRow = findViewById<TableRow>(R.id.headerTableRow)
     }
 
 
@@ -156,7 +168,11 @@ class AvailableLoansActivity : AppCompatActivity() {
         customTitleTextView.text = "Sort Options"
         customTitleTextView.textSize = 30f // Set the text size
         customTitleTextView.setTextColor(Color.BLACK) // Set the text color
-        customTitleTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlue)) // Set the background color
+        if(isBWMode){
+            customTitleTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.expiredColor))
+        }else{
+            customTitleTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlue))
+        }
         customTitleTextView.gravity = Gravity.CENTER
         customTitleTextView.setPadding(10, 20, 10, 10) // Set padding
 
@@ -177,16 +193,30 @@ class AvailableLoansActivity : AppCompatActivity() {
         // Set background color for the dialog
         dialog.setOnShowListener {
             val listView = (dialog as? AlertDialog)?.listView
-            listView?.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlue))
+            if (listView != null) {
+                val color = if (isBWMode) {
+                    ContextCompat.getColor(this, R.color.expiredColor)
+                } else {
+                    ContextCompat.getColor(this, R.color.TextColorBlue)
+                }
+                listView.setBackgroundColor(color)
+            }
         }
 
         dialog.show()
     }
 
+    private fun setTableLayoutBackground() {
+        if (isBWMode) {
+            tableLayout.setBackgroundResource(R.drawable.rectangle_input_lightgray)
+            headerTableRow.setBackgroundResource(R.drawable.rectangle_input_lightgray)
+        } else {
+            tableLayout.setBackgroundResource(R.drawable.rectangle_input2)
+            headerTableRow.setBackgroundResource(R.drawable.rectangle_input2)
+        }
+    }
 
     private fun displayLoans() {
-        val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
-
         // Keep the header row (first row) if it exists
         val headerRow = tableLayout.getChildAt(0) as? TableRow
         tableLayout.removeAllViews()
@@ -195,6 +225,7 @@ class AvailableLoansActivity : AppCompatActivity() {
         if (headerRow != null) {
             tableLayout.addView(headerRow)
         }
+
         var index = 0
         for (loanData in loans) {
             val row = TableRow(this)
@@ -204,8 +235,11 @@ class AvailableLoansActivity : AppCompatActivity() {
             )
             row.setPadding(5, 5, 5, 5)
 
-            row.setBackgroundResource(R.drawable.rectangle_input)
-
+            if(isBWMode){
+                row.setBackgroundResource(R.drawable.rectangle_input_black)
+            }else{
+                row.setBackgroundResource(R.drawable.rectangle_input)
+            }
             row.setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {
                     if (!isLoanLocked(loanData.lId.orEmpty())) {
@@ -259,7 +293,7 @@ class AvailableLoansActivity : AppCompatActivity() {
                 params.setMargins(100, 0, 0, 0)
                 textView.layoutParams = params
                 textView.text = propertyValue
-                textView.setTextColor(Color.parseColor("#FFFFFF"))
+                textView.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
                 textView.setPadding(5, 5, 5, 5)
                 textView.textSize = 20F
                 val customFont = ResourcesCompat.getFont(this, R.font.js)
@@ -272,7 +306,6 @@ class AvailableLoansActivity : AppCompatActivity() {
             tableLayout.addView(row)
             index++
         }
-
     }
 
     private fun sortLoansByInterestRate() {
@@ -449,6 +482,62 @@ class AvailableLoansActivity : AppCompatActivity() {
             textView.textSize = textView.textSize * textScalar
         }
     }
+
+    private fun retrieveBlackAndWhiteModeFromPreferences(): Boolean {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        return preferences.getBoolean("isBlackAndWhiteMode", false) // Default value is false
+    }
+    private fun applyBlackAndWhiteMode() {
+        setTableLayoutBackground()
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+        if (isBWMode) {
+            val rootLayout = findViewById<LinearLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            availableHeader.setTextColor(Color.BLACK)
+            loanIdTextView.setTextColor(Color.BLACK)
+            amountTextView.setTextColor(Color.BLACK)
+            repaymentPeriodTextView.setTextColor(Color.BLACK)
+            availabilityUntilTextView.setTextColor(Color.BLACK)
+            interestRateTextView.setTextColor(Color.BLACK)
+            calculatedLoanAmountTextView.setTextColor(Color.BLACK)
+            calculatedMonthlyPaymentTextView.setTextColor(Color.BLACK)
+            textAvailableLoans.setTextColor(Color.BLACK)
+            sortRedirect.setTextColor(Color.WHITE)
+            sortRedirect.setBackgroundResource(R.drawable.rectangle_input_black)
+            loansProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+        }else {
+            val rootLayout = findViewById<LinearLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            availableHeader.setTextColor(Color.WHITE)
+            loanIdTextView.setTextColor(Color.BLACK)
+            amountTextView.setTextColor(Color.BLACK)
+            repaymentPeriodTextView.setTextColor(Color.BLACK)
+            availabilityUntilTextView.setTextColor(Color.BLACK)
+            interestRateTextView.setTextColor(Color.BLACK)
+            calculatedLoanAmountTextView.setTextColor(Color.BLACK)
+            calculatedMonthlyPaymentTextView.setTextColor(Color.BLACK)
+            textAvailableLoans.setTextColor(Color.WHITE)
+            sortRedirect.setTextColor(Color.WHITE)
+            sortRedirect.setBackgroundResource(R.drawable.rectangle_input)
+            loansProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         soundManager.release()

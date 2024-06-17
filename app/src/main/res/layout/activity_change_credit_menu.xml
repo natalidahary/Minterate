@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/change_card_bg"
+    android:background="@drawable/general_background"
     tools:context="com.example.myapplication.changesUpdates.ChangeCreditMenuActivity">
 
 
@@ -115,10 +116,10 @@
         android:layout_marginTop="84dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Default Payment"
+        android:text="Default Payment"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,14 +135,30 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Change My Credit"
+        android:text="Change My Credit"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.395"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/change_credit_menu_IMG_creditTemplate"
+        android:layout_width="280dp"
+        android:layout_height="110dp"
+        android:src="@drawable/current_credit_template"
+        app:layout_constraintVertical_bias=".1"
+        android:layout_marginTop="110dp"
+        android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/change_credit_menu_TVW_defaultName"
@@ -190,6 +207,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1" />
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

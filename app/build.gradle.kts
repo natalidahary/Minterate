@@ -14,7 +14,7 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -43,11 +43,13 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    //implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-firestore-ktx:24.11.1")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -78,5 +80,20 @@ dependencies {
 
     implementation("com.itextpdf:itext7-core:7.1.9")
     implementation("org.jfree:jfreechart:1.5.0")
+
+    implementation("androidx.vectordrawable:vectordrawable:1.1.0")
+
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+
+    testImplementation("org.mockito:mockito-core:4.0.0")
+    testImplementation("org.mockito:mockito-inline:4.0.0")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    implementation("com.google.android.material:material:1.4.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+
+
 
 }

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/general_background"
@@ -30,10 +31,10 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
-        android:hint="Loan Details"
+        android:text="Loan Details"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,10 +68,10 @@
         android:layout_marginTop="364dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
-        android:hint="Interest Rate:"
+        android:text="Interest Rate:"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,10 +128,10 @@
         android:layout_marginTop="472dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
-        android:hint="Monthly Payment:"
+        android:text="Monthly Payment:"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.524"
         app:layout_constraintStart_toStartOf="parent"
@@ -175,10 +176,10 @@
         android:layout_marginTop="252dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
-        android:hint="Period:"
+        android:text="Period:"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -211,10 +212,10 @@
         android:layout_marginTop="132dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
-        android:hint="Amount:"
+        android:text="Amount:"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -232,6 +233,20 @@
         app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/choose_loan_TVW_monthlyLoan" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

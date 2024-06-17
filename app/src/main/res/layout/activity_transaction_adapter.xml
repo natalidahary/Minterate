@@ -6,7 +6,7 @@
     android:layout_centerVertical="true"
     android:padding="8dp">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/rectangleImage"
         android:layout_width="500dp"
         android:layout_height="72dp"

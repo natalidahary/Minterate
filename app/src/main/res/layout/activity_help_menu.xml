@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/general_background"
-    tools:context=".userPreferences.HelpMenuActivity">
+    tools:context=".userInformation.HelpMenuActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/help_menu_header"
@@ -16,10 +17,10 @@
         android:layout_marginTop="75dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Questions and Answers"
+        android:text="Questions and Answers"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite" />
+        android:textColor="@color/TextColorWhite" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/help_menu_BTN_exitButton"
@@ -78,4 +79,18 @@
         android:backgroundTint="@color/TextColorYellow"
         android:fontFamily="@font/js"
         android:text="Submit Question" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 </RelativeLayout>

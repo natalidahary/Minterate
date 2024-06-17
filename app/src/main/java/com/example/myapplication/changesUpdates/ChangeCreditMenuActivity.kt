@@ -2,6 +2,8 @@ package com.example.myapplication.changesUpdates
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,11 +11,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -51,6 +57,8 @@ class ChangeCreditMenuActivity : AppCompatActivity() {
     private lateinit var cvv: AppCompatEditText
     private lateinit var monthYearCredit: AppCompatEditText
     private lateinit var changeCreditMenuBTNSave: MaterialButton
+    private lateinit var creditTemplate: AppCompatImageView
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var userToken: String
 
     private lateinit var changeCreditHeader: AppCompatTextView
@@ -82,6 +90,7 @@ class ChangeCreditMenuActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
         binding.changeCreditMenuEDTMonthYear.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -184,6 +193,8 @@ class ChangeCreditMenuActivity : AppCompatActivity() {
         progressBarChangeCredit = findViewById(R.id.change_credit_menu_progressBar)
         changeCreditHeader = findViewById(R.id.change_credit_menu_CreditHeader)
         defaultPaymentHeader =findViewById(R.id.change_credit_menu_TVW_defaultPaymentHeader)
+        creditTemplate = findViewById(R.id.change_credit_menu_IMG_creditTemplate)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -367,6 +378,85 @@ class ChangeCreditMenuActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        // Update screen colors and text colors based on the mode state
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray)) // Set the background color to white
+
+            // Set text colors
+            defaultCardNum.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            defaultName.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            defaultExpiration.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            creditNumber.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            cvv.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            monthYearCredit.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeCreditMenuBTNSave.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeCreditMenuBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeCreditHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            defaultPaymentHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+
+            // Set hint text colors
+            creditNumber.setHintTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            cvv.setHintTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            monthYearCredit.setHintTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+
+            // Set backgrounds
+            creditNumber.setBackgroundResource(R.drawable.rectangle_input_black)
+            cvv.setBackgroundResource(R.drawable.rectangle_input_black)
+            monthYearCredit.setBackgroundResource(R.drawable.rectangle_input_black)
+            changeCreditMenuBTNSave.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeCreditMenuBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            creditTemplate.setImageResource(R.drawable.change_card_bg_bw)
+
+            // Set progress bar color
+            progressBarChangeCredit.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            // Restore default colors
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background) // Restore to your default background
+
+            defaultCardNum.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            defaultName.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            defaultExpiration.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            creditNumber.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            cvv.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            monthYearCredit.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changeCreditMenuBTNSave.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeCreditMenuBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changeCreditHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            defaultPaymentHeader.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+
+            // Set hint text colors
+            creditNumber.setHintTextColor(Color.BLACK)
+            cvv.setHintTextColor(Color.BLACK)
+            monthYearCredit.setHintTextColor(Color.BLACK)
+
+            // Set backgrounds
+            creditNumber.setBackgroundResource(R.drawable.rectangle_input)
+            cvv.setBackgroundResource(R.drawable.rectangle_input)
+            monthYearCredit.setBackgroundResource(R.drawable.rectangle_input)
+            changeCreditMenuBTNSave.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            changeCreditMenuBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            creditTemplate.setImageResource(R.drawable.current_credit_template)
+            // Set progress bar color
+            progressBarChangeCredit.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         soundManager.release()

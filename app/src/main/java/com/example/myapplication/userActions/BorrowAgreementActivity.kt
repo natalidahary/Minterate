@@ -23,6 +23,7 @@ import com.example.myapplication.requestResponse.LoanStatus
 import com.example.myapplication.requestResponse.UnlockLoanRequest
 import com.example.myapplication.requestResponse.UpdateAndAddLoanRequest
 import com.example.myapplication.requestResponse.UserDataResponse
+import com.example.myapplication.userPreferences.ChooseLoanActivity
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -141,7 +142,7 @@ class BorrowAgreementActivity : AppCompatActivity() {
         fun closeActivity() {
             if(activity is BorrowAgreementActivity) {
                 activity.unlockLoan()
-                val newActivityIntent = Intent(activity, BorrowActivity::class.java)
+                val newActivityIntent = Intent(activity, ChooseLoanActivity::class.java)
                 newActivityIntent.putExtra("userToken", userToken)
                 newActivityIntent.putExtra("user", userData)
                 activity.startActivity(newActivityIntent)
@@ -301,5 +302,15 @@ class BorrowAgreementActivity : AppCompatActivity() {
                 Toast.makeText(this@BorrowAgreementActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDestroy() {
+        unlockLoan()
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        unlockLoan()
+        super.onPause()
     }
 }

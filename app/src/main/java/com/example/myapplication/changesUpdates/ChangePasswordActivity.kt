@@ -2,14 +2,20 @@ package com.example.myapplication.changesUpdates
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -49,6 +55,7 @@ class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var changePasswordBTNExitButton: MaterialButton
     private lateinit var progressBar: ProgressBar
     private lateinit var changePasswordHeader: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
 
     private lateinit var userData: UserDataResponse
     private lateinit var userToken: String
@@ -73,6 +80,7 @@ class ChangePasswordActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
 
         binding.changePasswordBTNConfirm.setOnClickListener {
@@ -127,6 +135,7 @@ class ChangePasswordActivity : AppCompatActivity() {
         changePasswordHeader = findViewById(R.id.change_password_TVW_header)
         progressBar = findViewById(R.id.change_password_progressBar)
         changePasswordBTNExitButton = findViewById(R.id.change_password_BTN_exitButton)
+        minterateLogo = findViewById(R.id.logo)
     }
 
 
@@ -248,6 +257,55 @@ class ChangePasswordActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+        val elements = listOf(
+            oldPasswordEditText, passwordEditText, confirmPassEditText,
+        )
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            changePasswordHeader.setTextColor(Color.BLACK)
+            changePasswordBTNConfirm.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changePasswordBTNConfirm.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changePasswordBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            changePasswordBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            // Restore default colors
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.BLACK)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            changePasswordHeader.setTextColor(Color.WHITE)
+            changePasswordBTNConfirm.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changePasswordBTNConfirm.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            changePasswordBTNExitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            changePasswordBTNExitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         soundManager.release()

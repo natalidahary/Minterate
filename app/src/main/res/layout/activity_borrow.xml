@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -117,13 +118,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="372dp"
-        android:layout_marginEnd="10dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Available loans will be presented\non the following page"
+        android:text="Available loans will be presented"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.532"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/borrow_TVW_presentedLoansHeader2"
+        style="@style/TextSizeMediumS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:fontFamily="@font/js"
+        android:gravity="center"
+        android:text="on the following page"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
@@ -155,5 +172,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/borrow_BTN_showLoansButton"
         tools:ignore="MissingConstraints" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,20 @@
 package com.example.myapplication.loginActivity
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.util.Patterns
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.R
 import com.example.myapplication.ResendTokenWrapper
 import com.example.myapplication.serverOperations.RetrofitInterface
@@ -17,6 +24,7 @@ import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.requestResponse.LoginResponse
 import com.example.myapplication.signupActivity.SignupFirstActivity
 import com.example.myapplication.userPreferences.SoundManager
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -46,6 +54,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginEmail: String
     private lateinit var soundManager: SoundManager
     private lateinit var changePasswordRedirect: AppCompatTextView
+    private lateinit var email: AppCompatEditText
+    private lateinit var password: AppCompatEditText
+    private lateinit var signInButton: MaterialButton
+    private lateinit var signupRedirect: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var mobile: String
     private lateinit var userToken: String
 
@@ -56,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         soundManager = SoundManager(this)
         findViews()
+        applyBlackAndWhiteMode()
 
         binding.loginBTNLoginButton.setOnClickListener {
             loginEmail = binding.loginEDTEmail.text.toString()
@@ -100,6 +114,7 @@ class LoginActivity : AppCompatActivity() {
                                     .build()
                                 PhoneAuthProvider.verifyPhoneNumber(options)
 
+
                             } else if (response.code() == 404) {
                                 Toast.makeText(this@LoginActivity, "Wrong Credentials", Toast.LENGTH_LONG).show()
                             }
@@ -128,7 +143,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun findViews() {
         changePasswordRedirect = findViewById(R.id.login_TVW_changePasswordRedirect)
+        email = findViewById(R.id.login_EDT_email)
+        password = findViewById(R.id.login_EDT_password)
+        signInButton =  findViewById(R.id.login_BTN_loginButton)
+        signupRedirect = findViewById(R.id.login_TVW_signupRedirect)
+        minterateLogo = findViewById(R.id.logo)
     }
+
+
+
+
 
     private fun hashPassword(password: String): String {
         val messageDigest = MessageDigest.getInstance("SHA-256")
@@ -254,6 +278,52 @@ class LoginActivity : AppCompatActivity() {
         private const val MIN_PASSWORD_LENGTH = 8
         private const val MAX_PASSWORD_LENGTH = 128
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        val elements = listOf(
+            email, password
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.WHITE)
+                element.setBackgroundResource(R.drawable.rectangle_input_black)
+            }
+            changePasswordRedirect.setTextColor(Color.BLACK)
+            signInButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            signInButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            signupRedirect.setTextColor(Color.BLACK)
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 300.dpToPx(this)
+            minterateLogo.layoutParams.height = 150.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+                element.setHintTextColor(Color.BLACK)
+                element.setBackgroundResource(R.drawable.rectangle_input)
+            }
+            changePasswordRedirect.setTextColor(Color.WHITE)
+            signInButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            signInButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            signupRedirect.setTextColor(Color.WHITE)
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+
+    }
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         super.onDestroy()

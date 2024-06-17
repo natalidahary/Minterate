@@ -2,14 +2,20 @@ package com.example.myapplication.userPreferences
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -45,6 +51,7 @@ class CurrencyMenuActivity : AppCompatActivity() {
     private lateinit var progressBarCurrency: ProgressBar
     private lateinit var exitButton: MaterialButton
     private lateinit var saveCurrencyButton: MaterialButton
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var soundManager: SoundManager
     private lateinit var userData: UserDataResponse
     private lateinit var userToken: String
@@ -65,7 +72,7 @@ class CurrencyMenuActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
-
+        applyBlackAndWhiteMode()
 
         //  val getCurrency = userData.currency
         defaultCurrency.text = userData!!.currency
@@ -138,6 +145,7 @@ class CurrencyMenuActivity : AppCompatActivity() {
         exitButton = findViewById(R.id.currency_menu_BTN_exitButton)
         saveCurrencyButton = findViewById(R.id.currency_menu_BTN_saveButton)
         progressBarCurrency = findViewById(R.id.currency_menu_progressBar)
+        minterateLogo = findViewById(R.id.logo)
     }
 
     private fun updateCurrency(userToken: String, selectedCurrency: String) {
@@ -214,6 +222,50 @@ class CurrencyMenuActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            currencyHeader.setTextColor(Color.BLACK)
+            defaultCurrency.setTextColor(Color.BLACK)
+            defaultCurrencyHeader.setTextColor(Color.BLACK)
+            //currencySpinner.setBackgroundColor(Color.WHITE)
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            saveCurrencyButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            saveCurrencyButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            progressBarCurrency.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+            currencySpinner.setBackgroundResource(R.drawable.rectangle_input_gray)
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            currencyHeader.setTextColor(Color.WHITE)
+            defaultCurrency.setTextColor(Color.WHITE)
+            defaultCurrencyHeader.setTextColor(Color.WHITE)
+            //currencySpinner.setBackgroundColor(ContextCompat.getColor(this, R.color.BackgroundColorLightBlue))
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            saveCurrencyButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            saveCurrencyButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            progressBarCurrency.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+            currencySpinner.setBackgroundResource(R.drawable.rectangle_input)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
+
 
     override fun onDestroy() {
         soundManager.release()

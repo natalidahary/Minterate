@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -30,10 +31,10 @@
         android:layout_gravity="center"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="Available Loans"
+        android:text="Available Loans"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite" />
+        android:textColor="@color/TextColorWhite" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -44,7 +45,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/js"
         android:gravity="left"
-        android:text="  Sort ⤓"
+        android:text="  Sort ⤓ "
         android:background="@drawable/rectangle_input"
         android:textColor="@color/TextColorWhite" />
 
@@ -64,6 +65,7 @@
             tools:context="com.example.myapplication.userPreferences.AvailableLoansActivity">
 
             <TableRow
+                android:id="@+id/headerTableRow"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@drawable/rectangle_input2"
@@ -163,13 +165,29 @@
 
     </HorizontalScrollView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_minterate"
+            android:layout_alignParentBottom="true"/>
+
+        <!-- Adjust the margins or other properties as needed -->
+    </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/available_loans_progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="58dp"
         android:layout_gravity="center"
-        android:layout_marginTop="-250dp"
+        android:layout_marginTop="-300dp"
         android:indeterminateTint="@color/TextColorWhite"
         app:layout_constraintHorizontal_bias="0.498" />
 
@@ -189,3 +207,6 @@
 
 
 </LinearLayout>
+
+
+

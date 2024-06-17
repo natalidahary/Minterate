@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/login_background"
+    android:background="@drawable/general_background"
     tools:context="com.example.myapplication.changesUpdates.ChangeMobileMenuOtpActivity">
 
     <com.google.android.material.button.MaterialButton
@@ -23,18 +24,18 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/change_mobile_otp_menu_TVW_verificationHeader"
-        style="@style/TextSizeLarge"
+        style="@style/TextSizeExtraLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
         android:gravity="center"
-        android:hint="OTP Verification"
+        android:text="OTP Verification"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.343"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,10 +65,10 @@
         android:layout_marginTop="196dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/js"
-        android:hint="Enter the OTP sent to"
+        android:text="Enter the OTP sent to"
         android:inputType="text"
         android:padding="12dp"
-        android:textColorHint="@color/TextColorWhite"
+        android:textColor="@color/TextColorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,8 +76,8 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/change_mobile_otp_menu_EDT_input1OTP"
-        android:layout_width="12dp"
-        android:layout_height="25dp"
+        android:layout_width="30dp"
+        android:layout_height="37dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="292dp"
         android:layout_marginEnd="16dp"
@@ -253,5 +254,21 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/change_mobile_otp_menu_TVW_receiveOTP" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_minterate"
+            app:layout_constraintVertical_bias=".1"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

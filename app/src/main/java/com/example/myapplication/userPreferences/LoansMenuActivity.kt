@@ -3,6 +3,7 @@ package com.example.myapplication.userPreferences
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.icu.text.DecimalFormat
@@ -13,13 +14,18 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.myapplication.AppData
 import com.example.myapplication.MainActivity
@@ -56,6 +62,7 @@ class LoansMenuActivity : AppCompatActivity() {
     private lateinit var exitButton: MaterialButton
     private lateinit var loansProgressBar: ProgressBar
     private lateinit var textLookingLoans: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
     private lateinit var userToken: String
     private lateinit var userData: UserDataResponse
     private var userLoans: List<LoanDataResponse> = emptyList()
@@ -63,6 +70,7 @@ class LoansMenuActivity : AppCompatActivity() {
 
     private var textScalar by Delegates.notNull<Float>()
     private lateinit var soundManager: SoundManager
+    private var isBWMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,10 +89,11 @@ class LoansMenuActivity : AppCompatActivity() {
 
         soundManager = SoundManager(this)
         soundManager.setSoundEnabled(userData.sounds)
+        isBWMode = retrieveBlackAndWhiteModeFromPreferences()
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
-
+        applyBlackAndWhiteMode()
         retrieveLoans()
 
         binding.loansMenuBTNExitButton.setOnClickListener {
@@ -100,6 +109,7 @@ class LoansMenuActivity : AppCompatActivity() {
         availableLoansHeader = findViewById(R.id.loans_menu_TVW_availableLoansHeader)
         loansProgressBar = findViewById(R.id.loans_menu_progressBar)
         textLookingLoans = findViewById(R.id.loans_menu_TVW_textLookingLoans)
+        minterateLogo =  findViewById(R.id.logo)
     }
 
     private fun displayLoans() {
@@ -124,10 +134,10 @@ class LoansMenuActivity : AppCompatActivity() {
             val titleTypeface = ResourcesCompat.getFont(this, R.font.js)
 
             val titleTextColor = when (title) {
-                "ACTIVE" -> Color.parseColor("#7DCE13") // Green color for active loans
-                "PENDING" -> Color.parseColor("#E36414") // Orange color for pending loans
-                "COMPLETED" -> Color.parseColor("#B80000") // Red color for completed loans
-                "EXPIRED" -> Color.parseColor("#919190") // Grey color for completed loans
+                "ACTIVE" -> if(isBWMode) {ContextCompat.getColor(this, R.color.TextColorWhite)}else{ContextCompat.getColor(this, R.color.activeColor)}
+                "PENDING" ->  if(isBWMode) {ContextCompat.getColor(this, R.color.TextColorWhite)}else{ContextCompat.getColor(this, R.color.pendingColor)}
+                "COMPLETED" -> if(isBWMode) {ContextCompat.getColor(this, R.color.TextColorWhite)}else{ContextCompat.getColor(this, R.color.completedColor)}
+                "EXPIRED" ->  if(isBWMode) {ContextCompat.getColor(this, R.color.TextColorWhite)}else{ContextCompat.getColor(this, R.color.expiredColor)}
                 else -> Color.BLACK
             }
 
@@ -151,7 +161,11 @@ class LoansMenuActivity : AppCompatActivity() {
                 typeface = Typeface.create(titleTypeface, Typeface.BOLD)
                 gravity = Gravity.LEFT
                 setTextColor(titleTextColor)
-                setBackgroundResource(R.drawable.rectangle_input4)
+                if(isBWMode){
+                    setBackgroundResource(R.drawable.rectangle_input_black)
+                }else{
+                    setBackgroundResource(R.drawable.rectangle_input4)
+                }
             }
             tableLayout.addView(titleTextView)
 
@@ -185,7 +199,6 @@ class LoansMenuActivity : AppCompatActivity() {
     }
 
 
-
     private fun createLoanRow(index: Int, loanData: LoanDataResponse): TableRow {
         val row = TableRow(this).apply {
             layoutParams = TableRow.LayoutParams(
@@ -193,7 +206,11 @@ class LoansMenuActivity : AppCompatActivity() {
                 TableRow.LayoutParams.WRAP_CONTENT
             )
             setPadding(5, 5, 5, 5)
-            setBackgroundResource(R.drawable.rectangle_input3)
+            if(isBWMode){
+                setBackgroundResource(R.drawable.rectangle_input_lightgray)
+            }else{
+                setBackgroundResource(R.drawable.rectangle_input3)
+            }
             setOnClickListener {
                 // Intent to start the new activity
                 val intent = Intent(this@LoansMenuActivity, ShowLoanDetailsActivity::class.java)
@@ -268,7 +285,7 @@ class LoansMenuActivity : AppCompatActivity() {
                 gravity = Gravity.CENTER
             }
             gravity = Gravity.CENTER // Center-align the text within the TextView
-            setTextColor(Color.parseColor("#000000"))
+            setTextColor(ContextCompat.getColor(context, R.color.TextColorBlack))
             textSize = 20f
             setPadding(5, 5, 5, 5)
             typeface = ResourcesCompat.getFont(context, R.font.js)
@@ -285,7 +302,11 @@ class LoansMenuActivity : AppCompatActivity() {
             dialog.setContentView(LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
                 setPadding(50, 50, 50, 50)
-                setBackgroundColor(Color.parseColor("#92a2cc")) // Background color
+                if(isBWMode){
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.lightBlack))
+                }else{
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.colorDeleteDialog))
+                }
 
                 // Header
                 addView(TextView(this@LoansMenuActivity).apply {
@@ -315,7 +336,11 @@ class LoansMenuActivity : AppCompatActivity() {
                     text = "Yes"
                     textSize = 14f
                     typeface = ResourcesCompat.getFont(context, R.font.js)
-                    setBackgroundColor(Color.parseColor("#2b3452"))
+                    if(isBWMode){
+                        setBackgroundResource(R.drawable.rectangle_input_black)
+                    }else{
+                        setBackgroundColor(ContextCompat.getColor(context, R.color.buttonDeleteDialog))
+                    }
                     setTextColor(Color.WHITE)
                     setOnClickListener {
                         deleteLoan(id)
@@ -331,7 +356,11 @@ class LoansMenuActivity : AppCompatActivity() {
                     text = "No"
                     textSize = 14f
                     typeface = ResourcesCompat.getFont(context, R.font.js)
-                    setBackgroundColor(Color.parseColor("#2b3452"))
+                    if(isBWMode){
+                        setBackgroundResource(R.drawable.rectangle_input_black)
+                    }else{
+                        setBackgroundColor(ContextCompat.getColor(context, R.color.buttonDeleteDialog))
+                    }
                     setTextColor(Color.WHITE)
                     setOnClickListener {
                         dialog.dismiss()
@@ -462,6 +491,46 @@ class LoansMenuActivity : AppCompatActivity() {
             element.textSize = element.textSize * textScalar
         }
     }
+
+    private fun retrieveBlackAndWhiteModeFromPreferences(): Boolean {
+        val preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        return preferences.getBoolean("isBlackAndWhiteMode", false) // Default value is false
+    }
+
+    private fun applyBlackAndWhiteMode() {
+        val elements = listOf(
+            availableLoansHeader, textLookingLoans
+        )
+
+        if (isBWMode) {
+            val rootLayout = findViewById<RelativeLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+            elements.forEach { element ->
+                element.setTextColor(Color.BLACK)
+            }
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            loansProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<RelativeLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+            elements.forEach { element ->
+                element.setTextColor(Color.WHITE)
+            }
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            loansProgressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.TextColorWhite))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
         soundManager.release()

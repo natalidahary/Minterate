@@ -18,8 +18,13 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import com.example.myapplication.AppData
@@ -83,8 +88,11 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
     private lateinit var monthlyLoan: AppCompatTextView
     private lateinit var csvButton: MaterialButton
     private lateinit var excelText: AppCompatTextView
+    private lateinit var excelText2: AppCompatTextView
     private lateinit var repaymentText: AppCompatTextView
     private lateinit var repaymentText2: AppCompatTextView
+    private lateinit var repaymentText3: AppCompatTextView
+    private lateinit var minterateLogo: AppCompatImageView
 
     private lateinit var userToken: String
     private lateinit var amount: String
@@ -115,6 +123,7 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
         loanRepaymentButton.visibility = View.INVISIBLE
         repaymentText.visibility = View.INVISIBLE
         repaymentText2.visibility = View.INVISIBLE
+        repaymentText3.visibility = View.INVISIBLE
 
 
         val appData = AppData.getInstance()
@@ -131,6 +140,7 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
 
         textScalar = retrieveTextScalarFromPreferences()
         applyTextScalar()
+        applyBlackAndWhiteMode()
 
         //loanData
         lId = loanData.lId.toString()
@@ -155,6 +165,7 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
             loanRepaymentButton.visibility = View.VISIBLE
             repaymentText.visibility = View.VISIBLE
             repaymentText2.visibility = View.VISIBLE
+            repaymentText3.visibility = View.VISIBLE
 
             val currentLoan = AppData.getInstance().userLoans?.find { it.lId == lId }
             val originalAmount = currentLoan?.amount ?: 0.0
@@ -163,9 +174,9 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
             val totalPaid = filteredTransactions.sumOf { it.amount }
             val remainingAmount = if (filteredTransactions.isEmpty()) originalAmount else originalAmount - totalPaid
             val formattedRemainingAmount = formatWithCommas(remainingAmount.toString()) + " "
-            val baseText = "amount of "
-            repaymentText2.text = "$baseText$formattedRemainingAmount${loanData.currency}"
-            repaymentText2.setTextColor(Color.WHITE) // Set the text color to white
+            val baseText = "of "
+            repaymentText3.text = "$baseText$formattedRemainingAmount${loanData.currency}"
+            repaymentText3.setTextColor(Color.BLACK) // Set the text color to white
 
             Log.d(
                 "RepaymentButton",
@@ -237,6 +248,7 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
             loanRepaymentButton.visibility = View.GONE
             repaymentText.visibility = View.GONE
             repaymentText2.visibility = View.GONE
+            repaymentText3.visibility = View.GONE
             //Toast.makeText(this, "This loan is not active and cannot be repaid.", Toast.LENGTH_SHORT).show()
         }
 
@@ -270,8 +282,11 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
         monthlyLoan = findViewById(R.id.show_loan_TVW_monthlyLoan)
         csvButton = findViewById(R.id.show_loan_BTN_pdfButton)
         excelText = findViewById(R.id.show_loan_TVW_pdfText)
+        excelText2 = findViewById(R.id.show_loan_TVW_pdfText2)
         repaymentText = findViewById(R.id.show_loan_TVW_repaymentText)
         repaymentText2 = findViewById(R.id.show_loan_TVW_repaymentText2)
+        repaymentText3 = findViewById(R.id.show_loan_TVW_repaymentText3)
+        minterateLogo = findViewById(R.id.logo)
     }
 
     fun getUserDataById(userId: String, onResponse: (UserDataResponse?) -> Unit) {
@@ -572,14 +587,68 @@ class ShowLoanDetailsActivity : AppCompatActivity() {
     private fun applyTextScalar() {
         val textElements = listOf(
             amountLoan, periodLoan,
-            interestLoan, monthlyLoan, excelText, loanDetailsHeader,
-            repaymentText, repaymentText2, amountHeader, periodHeader, interestHeader, monthlyHeader
+            interestLoan, monthlyLoan, excelText, excelText2, loanDetailsHeader,
+            repaymentText, repaymentText2, repaymentText3, amountHeader, periodHeader, interestHeader, monthlyHeader
             // Include other TextViews and EditTexts as needed
         )
         textElements.forEach { element ->
             element.textSize = element.textSize * textScalar
         }
     }
+
+
+    private fun applyBlackAndWhiteMode() {
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val isBWMode = preferences.getBoolean("isBlackAndWhiteMode", false)
+
+        if (isBWMode) {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorWhiteGray))
+
+            val textColor = Color.BLACK
+            val textViews = listOf(
+                amountHeader, periodHeader, interestHeader, monthlyHeader, excelText2, monthlyLoan, periodLoan,
+                loanDetailsHeader, repaymentText, repaymentText2, repaymentText3, excelText, interestLoan, amountLoan
+            )
+            textViews.forEach { textView ->
+                textView.setTextColor(textColor)
+            }
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            loanRepaymentButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            loanRepaymentButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            csvButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            csvButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            minterateLogo.setImageResource(R.drawable.minterate_b_and_w)
+            minterateLogo.layoutParams.width = 160.dpToPx(this)
+            minterateLogo.layoutParams.height = 80.dpToPx(this)
+            minterateLogo.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        } else {
+            val rootLayout = findViewById<ConstraintLayout>(R.id.rootLayout)
+            rootLayout.setBackgroundResource(R.drawable.general_background)
+
+            val textColor = Color.WHITE
+            val textViews = listOf(
+                amountHeader, periodHeader, interestHeader, monthlyHeader, excelText2, monthlyLoan, periodLoan,
+                loanDetailsHeader, repaymentText, repaymentText2, repaymentText3, excelText, interestLoan, amountLoan
+            )
+            textViews.forEach { textView ->
+                textView.setTextColor(textColor)
+            }
+            exitButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            exitButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorLightBlue))
+            loanRepaymentButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorBlack))
+            loanRepaymentButton.setBackgroundColor(ContextCompat.getColor(this, R.color.TextColorYellow))
+            csvButton.setTextColor(ContextCompat.getColor(this, R.color.TextColorWhite))
+            csvButton.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+            minterateLogo.setImageResource(R.drawable.icon_minterate)
+        }
+    }
+
+    // Extension function to convert dp to px
+    fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
+
 
     override fun onDestroy() {
         soundManager.release()

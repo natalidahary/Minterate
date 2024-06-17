@@ -3,7 +3,13 @@
     <!-- Text Color Styles -->
     <color name="TextColorWhite">#FFFFFF</color>
 
+    <color name="TextColorWhiteGray">#EAE9E9</color>
+
     <color name="TextColorBlack">#000000</color>
+
+    <color name="TextColorBlackInput">#201F1F</color>
+
+    <color name="lightBlack">#7C7A7A</color>
 
     <color name="TextColorYellow">#eee30c</color>
 
@@ -17,5 +23,31 @@
 
     <color name="redAmount">#9e0303</color>
 
+    <color name="red">#8D2828</color>
+
     <color name="greenAmount">#148302</color>
+
+    <color name="startColor">#2b3452</color>
+
+    <color name="endColor">#525c75</color>
+
+    <color name="borrowColor">#6BA8D3</color>
+
+    <color name="lenderColor">#6DBF4F</color>
+
+    <color name="colorDeleteDialog">#92a2cc</color>
+
+    <color name="buttonDeleteDialog">#2b3452</color>
+
+    <color name="activeColor">#7DCE13</color>
+
+    <color name="pendingColor">#E36414</color>
+
+    <color name="completedColor">#B80000</color>
+
+    <color name="expiredColor">#919190</color>
+
+
+
+
 </resources>
