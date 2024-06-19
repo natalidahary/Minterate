@@ -23,7 +23,6 @@ import com.example.myapplication.requestResponse.LoanStatus
 import com.example.myapplication.requestResponse.UnlockLoanRequest
 import com.example.myapplication.requestResponse.UpdateAndAddLoanRequest
 import com.example.myapplication.requestResponse.UserDataResponse
-import com.example.myapplication.userPreferences.ChooseLoanActivity
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,6 +62,7 @@ class BorrowAgreementActivity : AppCompatActivity() {
     private var isFinish: Boolean = false
     private lateinit var htmlContract: String
     private lateinit var borrowerSignature: String
+    private var serviceFee: Double = 0.0
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +89,8 @@ class BorrowAgreementActivity : AppCompatActivity() {
                 userData,
                 userToken,
                 isLender,
-                isFinish
+                isFinish,
+                serviceFee
             ), "AndroidInterface")
 
         lId = loanData.lId.toString()
@@ -117,7 +118,14 @@ class BorrowAgreementActivity : AppCompatActivity() {
 
     }
 
-    class WebAppInterface(private val activity: Activity, private val userData: UserDataResponse, private  var userToken: String, private val isLender: Boolean, private val isFinish: Boolean) {
+    class WebAppInterface(
+        private val activity: Activity,
+        private val userData: UserDataResponse,
+        private var userToken: String,
+        private val isLender: Boolean,
+        private val isFinish: Boolean,
+        private val serviceFee: Double
+    ) {
         @JavascriptInterface
         fun exitToMainActivity(borrowerSignature: String) {
             if (activity is BorrowAgreementActivity) {
@@ -142,7 +150,7 @@ class BorrowAgreementActivity : AppCompatActivity() {
         fun closeActivity() {
             if(activity is BorrowAgreementActivity) {
                 activity.unlockLoan()
-                val newActivityIntent = Intent(activity, ChooseLoanActivity::class.java)
+                val newActivityIntent = Intent(activity, BorrowActivity::class.java)
                 newActivityIntent.putExtra("userToken", userToken)
                 newActivityIntent.putExtra("user", userData)
                 activity.startActivity(newActivityIntent)
@@ -186,39 +194,39 @@ class BorrowAgreementActivity : AppCompatActivity() {
 
 
     fun calculateMonthlyRepayment(amount: String, rate: String, period: String): Double {
-      // Convert strings to double
-      val principal = amount.toDouble()
-      val annualRate = rate.toDouble()
-      val periods = period.toDouble()
+        // Convert strings to double
+        val principal = amount.toDouble()
+        val annualRate = rate.toDouble()
+        val periods = period.toDouble()
 
-      // Convert annual interest rate to monthly rate
-      val monthlyRate = annualRate / 12.0 / 100.0
+        // Convert annual interest rate to monthly rate
+        val monthlyRate = annualRate / 12.0 / 100.0
 
-      // Calculate monthly repayment using the formula
-      val numerator = monthlyRate * Math.pow(1 + monthlyRate, periods)
-      val denominator = Math.pow(1 + monthlyRate, periods) - 1
-      val monthlyRepayment = principal * (numerator / denominator)
+        // Calculate monthly repayment using the formula
+        val numerator = monthlyRate * Math.pow(1 + monthlyRate, periods)
+        val denominator = Math.pow(1 + monthlyRate, periods) - 1
+        val monthlyRepayment = principal * (numerator / denominator)
 
-      // Round to 2 digits after the decimal point
-      return monthlyRepayment.roundTo2DecimalPlaces()
+        // Round to 2 digits after the decimal point
+        return monthlyRepayment.roundTo2DecimalPlaces()
     }
 
     fun Double.roundTo2DecimalPlaces(): Double {
-      val df = DecimalFormat("#.##")
-      return df.format(this).toDouble()
+        val df = DecimalFormat("#.##")
+        return df.format(this).toDouble()
     }
 
 
     fun calculateLoanAmount(amount: String, interestRate: String): String {
-      val amountDouble = amount.toDoubleOrNull()
-      val interestRateDouble = interestRate.toDoubleOrNull()
+        val amountDouble = amount.toDoubleOrNull()
+        val interestRateDouble = interestRate.toDoubleOrNull()
 
-      if (amountDouble != null && interestRateDouble != null) {
-          val loanAmount = amountDouble * (1 + interestRateDouble / 100.0)
-          return loanAmount.roundTo2DecimalPlaces().toString()
-      } else {
-          return "Invalid input"
-      }
+        if (amountDouble != null && interestRateDouble != null) {
+            val loanAmount = amountDouble * (1 + interestRateDouble / 100.0)
+            return loanAmount.roundTo2DecimalPlaces().toString()
+        } else {
+            return "Invalid input"
+        }
     }
 
     private fun saveLoan(borrowerSignature: String) {
@@ -266,19 +274,19 @@ class BorrowAgreementActivity : AppCompatActivity() {
 
 
     fun getEndDate(monthsToAddStr: String): String {
-      val monthsToAdd = monthsToAddStr.toIntOrNull() ?: 0 // Convert to Int, default to 0 if conversion fails
+        val monthsToAdd = monthsToAddStr.toIntOrNull() ?: 0 // Convert to Int, default to 0 if conversion fails
 
-      val calendar = Calendar.getInstance()
-      calendar.add(Calendar.MONTH, monthsToAdd)
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, monthsToAdd)
 
-      val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-      return dateFormat.format(calendar.time)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
     private fun getHtmlContent(): String {
-      // Return the HTML content as a string
-      // (You can copy the HTML content here)
-      return loanData.contractHTML.toString()
+        // Return the HTML content as a string
+        // (You can copy the HTML content here)
+        return loanData.contractHTML.toString()
 
     }
 
@@ -303,7 +311,6 @@ class BorrowAgreementActivity : AppCompatActivity() {
             }
         }
     }
-
     override fun onDestroy() {
         unlockLoan()
         super.onDestroy()
@@ -313,4 +320,5 @@ class BorrowAgreementActivity : AppCompatActivity() {
         unlockLoan()
         super.onPause()
     }
+
 }

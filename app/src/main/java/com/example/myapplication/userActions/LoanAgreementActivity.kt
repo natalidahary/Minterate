@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.icu.text.DecimalFormat
 import android.os.Bundle
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.Toast
@@ -18,28 +19,25 @@ import com.example.myapplication.requestResponse.ApiResponse
 import com.example.myapplication.requestResponse.LoanDataRequest
 import com.example.myapplication.requestResponse.LoanStatus
 import com.example.myapplication.requestResponse.SaveLoanRequest
+import com.example.myapplication.requestResponse.ServiceFeeResponse
 import com.example.myapplication.requestResponse.UserDataResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 import java.io.IOException
 import java.io.InputStream
 import java.time.LocalDate
-
-
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class LoanAgreementActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoanAgreementBinding
 
-    private var retrofit: Retrofit
-    private  var retrofitInterface: RetrofitInterface
-
-    init {
-        retrofit = RetrofitManager.getRetrofit()
-        retrofitInterface = RetrofitManager.getRetrofitInterface()
-    }
     private lateinit var userData: UserDataResponse
     private lateinit var userToken: String
     private lateinit var webView: WebView
@@ -51,12 +49,15 @@ class LoanAgreementActivity : AppCompatActivity() {
     private lateinit var htmlContract: String
 
     private lateinit var lenderSignature: String
+
+    private var serviceFee: Double = 0.0
+
     private var isLoanSaved = false
     private var isLender: Boolean = true
     private var isFinish: Boolean = false
 
+    private lateinit var retrofitInterface: RetrofitInterface
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoanAgreementBinding.inflate(layoutInflater)
@@ -68,15 +69,50 @@ class LoanAgreementActivity : AppCompatActivity() {
 
         webView = findViewById(R.id.webView)
         webView.settings.javaScriptEnabled = true
-        webView.addJavascriptInterface(WebAppInterface(this, userData, userToken, isLender, isFinish), "AndroidInterface")
+        webView.addJavascriptInterface(
+            WebAppInterface(
+                this,
+                userData,
+                userToken,
+                isLender,
+                isFinish,
+                serviceFee
+            ), "AndroidInterface"
+        )
 
+        retrofitInterface = RetrofitManager.getRetrofitInterface()
+
+        retrieveServiceFee(userToken) { fee, exception ->
+            if (exception != null || fee == null || fee == 0.0) {
+                runOnUiThread {
+                    Toast.makeText(
+                        this@LoanAgreementActivity,
+                        "Error retrieving service fee",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(this@LoanAgreementActivity, LendActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            } else {
+                serviceFee = fee
+                Log.d("serviceFee:", serviceFee.toString())
+
+                // Proceed to update and load the HTML contract
+                updateHtmlContract()
+            }
+        }
+    }
+
+    private fun updateHtmlContract() {
         amount = intent.getStringExtra("amount").toString()
         rate = intent.getStringExtra("rate").toString()
         period = intent.getStringExtra("period").toString()
         expiration = intent.getStringExtra("expiration").toString()
 
         val formattedAmount = formatWithCommas(amount)
-        val formattedMonthlyRepayment = formatWithCommas((calculateMonthlyRepayment(amount, rate, period) ?: 0.0).toString())
+        val formattedMonthlyRepayment =
+            formatWithCommas((calculateMonthlyRepayment(amount, rate, period) ?: 0.0).toString())
 
         htmlContract = getHtmlContent()
             .replace("[Full Name of Lender]", "${userData.firstName ?: ""} ${userData.lastName ?: ""}")
@@ -91,39 +127,75 @@ class LoanAgreementActivity : AppCompatActivity() {
             .replace("[Enter Interest Rate]", rate ?: "")
             .replace("[Enter Repayment Period]", period ?: "")
             .replace("[Enter Monthly Payment Amount]", "$formattedMonthlyRepayment ${userData.currency}")
+            .replace("[Service Fee Amount]", "${serviceFee ?: ""}")
             .replace("[Enter Grace Period]", "14")
             .replace("[Enter Cure Period]", "7")
 
         webView.loadDataWithBaseURL(null, htmlContract, "text/html", "UTF-8", null)
-
     }
 
-    fun formatWithCommas(input: String): String {
+    private fun retrieveServiceFee(userToken: String, callback: (Double?, Exception?) -> Unit) {
+        val call: Call<ServiceFeeResponse> = retrofitInterface.getServiceFee(userToken)
+
+        call.enqueue(object : Callback<ServiceFeeResponse> {
+            override fun onResponse(
+                call: Call<ServiceFeeResponse>,
+                response: Response<ServiceFeeResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val serviceFee = response.body()?.serviceFee ?: 0.0
+                    callback(serviceFee, null)
+                } else {
+                    callback(null, IOException("Error retrieving service fee: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<ServiceFeeResponse>, t: Throwable) {
+                callback(
+                    null,
+                    t as? Exception ?: IOException("Network call failed: ${t.message}")
+                )
+            }
+        })
+    }
+
+    private fun formatWithCommas(input: String): String {
         val number = try {
             input.toDouble()
         } catch (e: NumberFormatException) {
             return input // Return input as is if it's not a valid number
         }
 
-        return String.format("%,.2f", number)
+        return DecimalFormat("#,##0.00").format(number)
     }
 
-    class WebAppInterface(private val activity: LoanAgreementActivity, private val userData: UserDataResponse, private  var userToken: String, private val isLender: Boolean, private val isFinish: Boolean) {
+    inner class WebAppInterface(
+        private val activity: LoanAgreementActivity,
+        private val userData: UserDataResponse,
+        private val userToken: String,
+        private val isLender: Boolean,
+        private val isFinish: Boolean,
+        private val serviceFee: Double
+    ) {
         @JavascriptInterface
         fun exitToMainActivity(lenderSignature: String) {
-            if (activity is LoanAgreementActivity && !activity.isLoanSaved) {
+            if (!activity.isLoanSaved) {
                 // Run network operation in a background thread
-                Thread {
-                    activity.saveLoan(lenderSignature = lenderSignature)
-                    activity.runOnUiThread {
+                CoroutineScope(Dispatchers.IO).launch {
+                    saveLoan(lenderSignature)
+                    withContext(Dispatchers.Main) {
                         // Continue with UI operations on the main thread
                         val newActivityIntent = Intent(activity, MainActivity::class.java)
                         activity.startActivity(newActivityIntent)
-                        Toast.makeText(activity, "Contract was saved successfully \nLoan has been published!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "Contract was saved successfully \nLoan has been published!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         activity.finish()
                         activity.isLoanSaved = true
                     }
-                }.start()
+                }
             } else {
                 Toast.makeText(activity, "Error saving contract", Toast.LENGTH_SHORT).show()
             }
@@ -145,7 +217,6 @@ class LoanAgreementActivity : AppCompatActivity() {
         fun isFinish(): Boolean {
             return isFinish
         }
-
     }
 
     @SuppressLint("NewApi")
@@ -153,15 +224,14 @@ class LoanAgreementActivity : AppCompatActivity() {
         return LocalDate.now().toString()
     }
 
-    fun saveLoan(lenderSignature: String) {
+    private fun saveLoan(lenderSignature: String) {
         this.lenderSignature = lenderSignature
-        var currentDate = getCurrentDate()
-        //this.borrowerSignature = borrowerSignature
+        val currentDate = getCurrentDate()
 
         val signedHtmlContract = htmlContract
             // Replace placeholders with actual signature images
             .replace("[Lender Signature Image]", "<img src='$lenderSignature' alt=''/>")
-            .replace("[Date of Lender]", currentDate ?: "[Date of Lender]")
+            .replace("[Date of Lender]", currentDate)
 
         val loanData = LoanDataRequest(
             lenderId = userData.id,
@@ -178,21 +248,36 @@ class LoanAgreementActivity : AppCompatActivity() {
         )
 
         val saveLoanRequest = SaveLoanRequest(userToken, loanData)
-        retrofitInterface.saveLoan(saveLoanRequest).enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(this@LoanAgreementActivity, "Loan saved successfully", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this@LoanAgreementActivity, "Error saving loan: ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
+        retrofitInterface.saveLoan(saveLoanRequest)
+            .enqueue(object : Callback<ApiResponse> {
+                override fun onResponse(
+                    call: Call<ApiResponse>,
+                    response: Response<ApiResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@LoanAgreementActivity,
+                            "Loan saved successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this@LoanAgreementActivity,
+                            "Error saving loan: ${response.errorBody()?.string()}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                Toast.makeText(this@LoanAgreementActivity, "Network failure: ${t.message}", Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                    Toast.makeText(
+                        this@LoanAgreementActivity,
+                        "Network failure: ${t.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
-
 
     private fun getHtmlContent(): String {
         // Load HTML content from the assets folder
@@ -212,11 +297,11 @@ class LoanAgreementActivity : AppCompatActivity() {
         return htmlContent
     }
 
-    fun calculateMonthlyRepayment(amount: String, rate: String, period: String): Double {
+    fun calculateMonthlyRepayment(amount: String, rate: String, period: String): Double? {
         // Convert strings to double
-        val principal = amount.toDouble()
-        val annualRate = rate.toDouble()
-        val periods = period.toDouble()
+        val principal = amount.toDoubleOrNull() ?: return null
+        val annualRate = rate.toDoubleOrNull() ?: return null
+        val periods = period.toDoubleOrNull() ?: return null
 
         // Convert annual interest rate to monthly rate
         val monthlyRate = annualRate / 12.0 / 100.0
@@ -229,6 +314,7 @@ class LoanAgreementActivity : AppCompatActivity() {
         // Round to 2 digits after the decimal point
         return monthlyRepayment.roundTo2DecimalPlaces()
     }
+
 
     fun Double.roundTo2DecimalPlaces(): Double {
         val df = DecimalFormat("#.##")

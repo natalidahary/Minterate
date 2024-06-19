@@ -22,6 +22,7 @@ import com.example.myapplication.requestResponse.MobileUpdateRequest
 import com.example.myapplication.requestResponse.PasswordUpdateRequest
 import com.example.myapplication.requestResponse.RecordTransactionRequest
 import com.example.myapplication.requestResponse.SaveLoanRequest
+import com.example.myapplication.requestResponse.ServiceFeeResponse
 import com.example.myapplication.requestResponse.SoundSettingsUpdateRequest
 import com.example.myapplication.requestResponse.TextScalarUpdateRequest
 import com.example.myapplication.requestResponse.Transaction
@@ -127,6 +128,9 @@ interface RetrofitInterface {
 
     @GET("/getUserLoans")
     fun getUserLoans(@Query("token") userToken: String): Call<List<LoanDataResponse>>
+
+    @GET("/getServiceFee")
+    fun getServiceFee(@Query("token") userToken: String): Call<ServiceFeeResponse>
 
     @DELETE("/deleteLoan")
     fun deleteLoan(@Query("userToken") userToken: String, @Query("loanId") loanId: String): Call<ApiResponse>
